@@ -1,0 +1,22 @@
+{
+  "name": "kuralagam",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kuralagam — உலகின் 1330 குறள்களின் டிஜிட்டல் இல்லம்",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c yellow,cyan \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "build": "npm run build -w client",
+    "start": "npm run start -w server",
+    "seed": "npm run seed -w server",
+    "build-data": "npm run build-data -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

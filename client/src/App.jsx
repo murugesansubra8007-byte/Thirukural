@@ -1,0 +1,98 @@
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { AuthProvider, RequireAdmin } from './context/AuthContext';
+import { Layout, KolamStrip, ScrollToTop, EmptyState } from './components';
+
+import Home from './pages/Home';
+import Chapters from './pages/Chapters';
+import ChapterDetail from './pages/ChapterDetail';
+import KuralDetail from './pages/KuralDetail';
+import Explore from './pages/Explore';
+import Today from './pages/Today';
+import { Categories as CategoriesPage, CategoryDetail } from './pages/Categories';
+import Learn from './pages/Learn';
+import LearnDeep from './pages/LearnDeep';
+import AboutValluvar from './pages/AboutValluvar';
+import Quiz from './pages/Quiz';
+import Favorites from './pages/Favorites';
+import { Blog, BlogArticle } from './pages/Blog';
+
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminKurals from './pages/admin/AdminKurals';
+import AdminChapters from './pages/admin/AdminChapters';
+import AdminCategories from './pages/admin/AdminCategories';
+import AdminBlog from './pages/admin/AdminBlog';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminQuiz from './pages/admin/AdminQuiz';
+import AdminSettings from './pages/admin/AdminSettings';
+
+function PublicLayout() {
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
+}
+
+function AdminShell() {
+  return (
+    <RequireAdmin>
+      <AdminLayout />
+    </RequireAdmin>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <AuthProvider>
+        <ScrollToTop />
+        <Routes>
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/chapters" element={<Chapters />} />
+            <Route path="/chapters/:number" element={<ChapterDetail />} />
+            <Route path="/kural/:number" element={<KuralDetail />} />
+            <Route path="/today" element={<Today />} />
+            <Route path="/categories" element={<CategoriesPage />} />
+            <Route path="/categories/:slug" element={<CategoryDetail />} />
+            <Route path="/learn" element={<Learn />} />
+            <Route path="/learn/:section" element={<LearnDeep />} />
+            <Route path="/about-valluvar" element={<AboutValluvar />} />
+            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogArticle />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminShell />}>
+            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="kurals" element={<AdminKurals />} />
+            <Route path="chapters" element={<AdminChapters />} />
+            <Route path="categories" element={<AdminCategories />} />
+            <Route path="blog" element={<AdminBlog />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="quiz" element={<AdminQuiz />} />
+            <Route path="settings" element={<AdminSettings />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  );
+}
+
+function NotFound() {
+  return (
+    <div className="container section">
+      <EmptyState icon="flower" title="இந்தப் பக்கம் கிடைக்கவில்லை" note="404 — முகப்பிற்குத் திரும்புக.">
+        <a href="/" className="btn btn-primary">முகப்பு →</a>
+      </EmptyState>
+    </div>
+  );
+}

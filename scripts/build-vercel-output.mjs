@@ -25,10 +25,13 @@ const esbuildBin =
     join(root, 'client', 'node_modules', '.bin', process.platform === 'win32' ? 'esbuild.cmd' : 'esbuild')) ||
   join(root, 'node_modules', '.bin', process.platform === 'win32' ? 'esbuild.cmd' : 'esbuild');
 const bundlePath = join(funcDir, 'index.js');
-execSync(
-  `"${esbuildBin}" api/index.js --bundle --platform=node --format=cjs --target=node20 --outfile="${bundlePath}"`,
-  { cwd: root, stdio: 'inherit' }
-);
+const esbuildCmd = `"${esbuildBin}" api/index.js --bundle --platform=node --format=cjs --target=node20 --outfile="${bundlePath}"`;
+try {
+  execSync(esbuildCmd, { cwd: root, stdio: 'inherit' });
+} catch (e) {
+  console.error('[build-vercel-output] esbuild failed. Command: ' + esbuildCmd);
+  process.exit(1);
+}
 
 mkdirSync(join(funcDir, 'data'), { recursive: true });
 copyFileSync(join(root, 'server', 'data', 'kurals.json'), join(funcDir, 'data', 'kurals.json'));

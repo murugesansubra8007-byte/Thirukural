@@ -76,7 +76,7 @@ export default function Home() {
                 </span>
               </div>
               <div className="row mt-2">
-                <AudioButton text={`${today.line1} ${today.line2}`} />
+                <AudioButton text={`${today.line1}\n${today.line2}`} />
                 <ShareButton kural={today} />
                 <Link to={`/kural/${today.number}`} className="btn btn-primary btn-sm">
                   முழு விளக்கம் →

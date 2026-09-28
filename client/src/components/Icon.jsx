@@ -40,6 +40,7 @@ const S = {
     <rect key="a" x="14" y="4" width="4" height="16" rx="1" />,
     <rect key="b" x="6" y="4" width="4" height="16" rx="1" />,
   ],
+  play: [<polygon key="p" points="6 4 20 12 6 20" />],
   clock: [
     <circle key="c" cx="12" cy="12" r="10" />,
     <polyline key="p" points="12 6 12 12 16 14" />,

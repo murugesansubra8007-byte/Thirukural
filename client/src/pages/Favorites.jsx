@@ -80,7 +80,7 @@ export default function Favorites() {
                     </span>
                     <span className="m">{k.chapterName}</span>
                   </Link>
-                  <AudioButton text={`${k.line1} ${k.line2}`} small />
+                  <AudioButton text={`${k.line1}\n${k.line2}`} small />
                   <ShareButton kural={k} small />
                   <button className="icon-btn" title="நீக்கு" onClick={() => remove(k.number)}>
                     <Icon name="trash" size={15} />

@@ -30,7 +30,7 @@ export default function KuralDetail() {
   if (!data) return <div className="container"><Loading /></div>;
 
   const { kural, prev, next } = data;
-  const line = `${kural.line1} ${kural.line2}`;
+  const line = `${kural.line1}\n${kural.line2}`;
 
   return (
     <div>

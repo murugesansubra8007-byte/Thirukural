@@ -1,51 +1,108 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isFavorite, toggleFavorite } from '../api';
 import Icon from './Icon';
 
-/* ---------- Audio (Web Speech API, Tamil) ---------- */
+/* ---------- Audio (Tamil voice, clear + per-line) ---------- */
+function pickTamilVoice() {
+  let voices = [];
+  try {
+    voices = window.speechSynthesis.getVoices();
+  } catch (e) {
+    return null;
+  }
+  const ta = voices.filter((v) => (v.lang || '').toLowerCase().startsWith('ta'));
+  if (!ta.length) return null;
+  const score = (v) => {
+    const n = (v.name || '').toLowerCase();
+    let s = 0;
+    if (n.includes('google')) s += 100;
+    if (n.includes('dhivya') || n.includes('kavya')) s += 95;
+    if (n.includes('microsoft')) s += 60;
+    if ((v.lang || '').toLowerCase() === 'ta-in') s += 35;
+    if (n.includes('zira') || n.includes('heera')) s += 15;
+    return s - n.length * 0.001;
+  };
+  return ta.sort((a, b) => score(b) - score(a))[0];
+}
+
+let speakToken = 0;
+
 export function speak(text, { rate = 0.85, slow = false } = {}) {
-  if (!('speechSynthesis' in window)) return false;
+  if (!('speechSynthesis' in window)) return Promise.resolve(false);
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  const voices = window.speechSynthesis.getVoices();
-  const ta = voices.find((v) => v.lang && v.lang.toLowerCase().startsWith('ta'));
-  if (ta) u.voice = ta;
-  u.lang = ta ? ta.lang : 'ta-IN';
-  u.rate = slow ? rate * 0.72 : rate;
-  u.pitch = 0.95;
-  window.speechSynthesis.speak(u);
-  return true;
+  const token = ++speakToken;
+  const voice = pickTamilVoice();
+  const lines = String(text)
+    .split('\n')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  return new Promise((resolve) => {
+    let i = 0;
+    const next = () => {
+      if (token !== speakToken) return resolve(false);
+      if (i >= lines.length) return resolve(true);
+      const u = new SpeechSynthesisUtterance(lines[i]);
+      if (voice) u.voice = voice;
+      u.lang = voice ? voice.lang : 'ta-IN';
+      u.rate = slow ? rate * 0.68 : rate;
+      u.pitch = 1;
+      u.volume = 1;
+      u.onend = () => {
+        i += 1;
+        next();
+      };
+      u.onerror = (e) => {
+        if (e && (e.error === 'canceled' || e.error === 'interrupted')) return resolve(false);
+        i += 1;
+        next();
+      };
+      window.speechSynthesis.speak(u);
+    };
+    next();
+  });
+}
+
+export function stopSpeak() {
+  speakToken += 1;
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
 
 export function AudioButton({ text, label = 'கேளுங்கள்', rate = 0.85, slow = false, small = false }) {
-  const [speaking, setSpeaking] = useState(false);
-  const play = (e) => {
+  const [state, setState] = useState('idle');
+  const runId = useRef(0);
+
+  const play = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (speaking) {
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      setSpeaking(false);
+    if (state === 'speaking') {
+      runId.current += 1;
+      stopSpeak();
+      setState('idle');
       return;
     }
-    const ok = speak(text, { rate, slow });
-    setSpeaking(ok);
-    if (ok && 'speechSynthesis' in window) {
-      const done = () => setSpeaking(false);
-      window.speechSynthesis.addEventListener('end', done, { once: true });
-      window.speechSynthesis.addEventListener('error', done, { once: true });
-    }
+    const id = ++runId.current;
+    setState('speaking');
+    const done = await speak(text, { rate, slow });
+    if (id === runId.current) setState(done ? 'done' : 'idle');
   };
+
+  const icon = state === 'speaking' ? 'pause' : state === 'done' ? 'play' : slow ? 'clock' : 'volume';
+  const word = state === 'speaking' ? 'நிறுத்து' : state === 'done' ? 'மீண்டும் கேள்' : slow ? 'மெதுவாகக் கேள்' : label;
+  const hint =
+    state === 'speaking' ? 'நிறுத்து' : state === 'done' ? 'மீண்டும் கேளுங்கள்' : state === 'idle' && slow ? 'மெதுவான உச்சரிப்பு' : label;
+
   return (
-    <button className={`btn btn-ghost${small ? ' btn-sm' : ''}`} onClick={play} title={label}>
-      <Icon name={speaking ? 'pause' : slow ? 'clock' : 'volume'} size={16} />
-      {speaking ? 'நிறுத்து' : slow ? 'மெதுவாகக் கேள்' : 'கேளுங்கள்'}
+    <button className={`btn btn-ghost${small ? ' btn-sm' : ''}`} onClick={play} title={hint}>
+      <Icon name={icon} size={16} />
+      {word}
     </button>
   );
 }
 
 export function SlowAudioButton({ text, rate = 0.85 }) {
-  return <AudioButton text={text} rate={rate} slow label="மெதுவான உச்சரிப்பு" />;
+  return <AudioButton text={text} rate={rate} slow label="மெதுவாகக் கேள்" />;
 }
 
 /* ---------- Favorites ---------- */

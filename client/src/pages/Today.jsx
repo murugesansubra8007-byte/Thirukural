@@ -17,7 +17,7 @@ export default function Today() {
   if (error) return <div className="container"><p className="notice">{error}</p></div>;
   if (!kural) return <Loading />;
 
-  const line = `${kural.line1} ${kural.line2}`;
+  const line = `${kural.line1}\n${kural.line2}`;
   const shareText = `குறள் ${kural.number} — ${kural.line1} ${kural.line2}\nhttps://kuralagam.in/kural/${kural.number}`;
   const shareLinks = [
     { name: 'WhatsApp', href: `https://wa.me/?text=${encodeURIComponent(shareText)}` },

@@ -20,7 +20,10 @@ app.use('/api/admin', require('./routes/admin'));
 
 app.get('/api/health', (req, res) => res.json({ ok: true, service: 'Kuralagam API' }));
 
-const distDir = path.join(__dirname, '..', '..', 'client', 'dist');
+const distDir =
+  fs.existsSync(path.join(__dirname, '..', '..', 'dist'))
+    ? path.join(__dirname, '..', '..', 'dist')
+    : path.join(__dirname, '..', '..', 'client', 'dist');
 if (fs.existsSync(distDir)) {
   app.use(express.static(distDir));
   app.get(/^\/(?!api\/).*/, (req, res) => res.sendFile(path.join(distDir, 'index.html')));

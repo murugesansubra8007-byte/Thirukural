@@ -1301,7 +1301,7 @@ a.card:hover {
 .kural-slab .verse-large .l2 {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: clamp(6px, 1.6vw, 12px);
 }
 
@@ -1346,6 +1346,11 @@ a.card:hover {
 .kural-slab .verse-large .l2::before,
 .kural-slab .verse-large .l2::after {
   width: clamp(8px, 2.5vw, 26px);
+}
+
+.kural-slab .verse-large .l1::before,
+.kural-slab .verse-large .l2::before {
+  display: none;
 }
 
 .verse-large .l1,

@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "buildCommand": "npm run build && node scripts/build-vercel-output.mjs",
+  "buildCommand": "cd \"$(git rev-parse --show-toplevel)\" && npm run build && node scripts/build-vercel-output.mjs",
   "outputDirectory": ".vercel/output"
 }

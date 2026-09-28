@@ -59,3 +59,8 @@ writeFileSync(
 );
 
 console.log('Build Output API v3 written to .vercel/output');
+
+const clientOut = join(root, 'client', '.vercel', 'output');
+rmSync(clientOut, { recursive: true, force: true });
+cpSync(out, clientOut, { recursive: true });
+console.log('Mirrored to client/.vercel/output');

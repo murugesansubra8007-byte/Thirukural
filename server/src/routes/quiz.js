@@ -88,9 +88,9 @@ router.get('/', (req, res) => {
   res.json({ date: todayKey, total: questions.length, questions });
 });
 
-router.post('/attempt', (req, res) => {
+router.post('/attempt', async (req, res) => {
   const { score, total, answers } = req.body || {};
-  const record = db.collection('quizAttempts').insert({
+  const record = await db.collection('quizAttempts').insert({
     date: getTodayKey(),
     score: Number(score || 0),
     total: Number(total || 0),
@@ -126,15 +126,15 @@ router.get('/manage', adminOnly, (req, res) => {
   res.json({ total: questions.length, questions });
 });
 
-router.post('/manage', adminOnly, (req, res) => {
+router.post('/manage', adminOnly, async (req, res) => {
   const { text, options, correct, explanation } = req.body || {};
   if (!text || !options?.length || !correct) return res.status(400).json({ error: 'Invalid question' });
-  const q = db.collection('quizQuestions').insert({ text, options, correct, explanation: explanation || '' });
+  const q = await db.collection('quizQuestions').insert({ text, options, correct, explanation: explanation || '' });
   res.json({ question: q });
 });
 
-router.delete('/manage/:id', adminOnly, (req, res) => {
-  const removed = db.collection('quizQuestions').remove((q) => q.id === req.params.id);
+router.delete('/manage/:id', adminOnly, async (req, res) => {
+  const removed = await db.collection('quizQuestions').remove((q) => q.id === req.params.id);
   res.json({ removed });
 });
 

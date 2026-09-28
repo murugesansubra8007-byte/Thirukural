@@ -22,10 +22,10 @@ router.get('/:id', (req, res) => {
   res.json({ category, kuralCount: kurals.length, kurals });
 });
 
-router.post('/', adminOnly, (req, res) => {
+router.post('/', adminOnly, async (req, res) => {
   const { emoji, label, description, taglines, chapterNumbers, slug } = req.body || {};
   if (!label) return res.status(400).json({ error: 'label required' });
-  const category = db.collection('categories').insert({
+  const category = await db.collection('categories').insert({
     emoji: emoji || '✦',
     label,
     slug: slug || String(label).toLowerCase().replace(/[^a-z0-9]+/g, '-'),
@@ -36,7 +36,7 @@ router.post('/', adminOnly, (req, res) => {
   res.json({ category });
 });
 
-router.put('/:id', adminOnly, (req, res) => {
+router.put('/:id', adminOnly, async (req, res) => {
   const { emoji, label, slug, description, taglines, chapterNumbers } = req.body || {};
   const updates = {};
   if (emoji !== undefined) updates.emoji = emoji;
@@ -45,13 +45,13 @@ router.put('/:id', adminOnly, (req, res) => {
   if (description !== undefined) updates.description = description;
   if (taglines !== undefined) updates.taglines = taglines;
   if (chapterNumbers !== undefined) updates.chapterNumbers = chapterNumbers;
-  const category = db.collection('categories').update((c) => String(c.id) === String(req.params.id), updates);
+  const category = await db.collection('categories').update((c) => String(c.id) === String(req.params.id), updates);
   if (!category) return res.status(404).json({ error: 'வகை கிடைக்கவில்லை' });
   res.json({ category });
 });
 
-router.delete('/:id', adminOnly, (req, res) => {
-  const removed = db.collection('categories').remove((c) => String(c.id) === String(req.params.id));
+router.delete('/:id', adminOnly, async (req, res) => {
+  const removed = await db.collection('categories').remove((c) => String(c.id) === String(req.params.id));
   res.json({ removed });
 });
 

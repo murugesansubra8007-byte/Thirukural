@@ -27,12 +27,12 @@ router.get('/:number', (req, res) => {
   res.json({ chapter, paal, kurals, prevChapter, nextChapter });
 });
 
-router.put('/:number', adminOnly, (req, res) => {
+router.put('/:number', adminOnly, async (req, res) => {
   const n = String(req.params.number);
   const chapter = data.chapterByNumber(n);
   if (!chapter) return res.status(404).json({ error: 'அதிகாரம் கிடைக்கவில்லை' });
   const { name, translation, transliteration } = req.body || {};
-  db.setData((d) => {
+  await db.setData((d) => {
     d.chapterOverrides = d.chapterOverrides || {};
     d.chapterOverrides[n] = {
       number: n,

@@ -2,6 +2,34 @@ const fs = require('fs');
 const { randomUUID } = require('crypto');
 const config = require('../config');
 
+const KV_URL = process.env.KV_REST_API_URL || '';
+const KV_TOKEN = process.env.KV_REST_API_TOKEN || '';
+const KV_KEY = 'kg:db.json';
+
+function useKV() {
+  return !!(KV_URL && KV_TOKEN);
+}
+
+function kvHeaders() {
+  return { Authorization: `Bearer ${KV_TOKEN}`, 'Content-Type': 'application/json' };
+}
+
+async function kvGet() {
+  if (!useKV()) throw new Error('KV not configured');
+  const r = await fetch(`${KV_URL}/get/${KV_KEY}`, { headers: kvHeaders() });
+  const j = await r.json();
+  return typeof j.result === 'string' ? JSON.parse(j.result) : null;
+}
+
+async function kvSet(doc) {
+  if (!useKV()) return;
+  await fetch(`${KV_URL}/set/${KV_KEY}`, {
+    method: 'POST',
+    headers: kvHeaders(),
+    body: JSON.stringify(doc),
+  });
+}
+
 function defaults() {
   return {
     users: [],
@@ -49,8 +77,33 @@ function load() {
   return data;
 }
 
-function save() {
-  fs.writeFileSync(config.DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+async function save() {
+  if (!data) load();
+  if (useKV()) {
+    await kvSet(data);
+  } else {
+    fs.writeFileSync(config.DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+  }
+}
+
+async function hydrate() {
+  load();
+  if (!useKV()) return data;
+  try {
+    const remote = await kvGet();
+    if (remote) {
+      data = { ...defaults(), ...remote };
+      for (const k of Object.keys(defaults())) {
+        if (data[k] === undefined || data[k] === null) data[k] = defaults()[k];
+      }
+      data.settings = { ...defaults().settings, ...(remote.settings || {}) };
+    } else {
+      await save();
+    }
+  } catch (e) {
+    console.error('KV hydrate failed:', e.message);
+  }
+  return data;
 }
 
 function collection(name) {
@@ -65,33 +118,33 @@ function collection(name) {
     findOne(fn) {
       return data[name].find(fn);
     },
-    insert(doc) {
+    async insert(doc) {
       doc.id = doc.id || randomUUID();
       doc.createdAt = doc.createdAt || new Date().toISOString();
       data[name].push(doc);
-      save();
+      await save();
       return doc;
     },
-    update(fn, changes) {
+    async update(fn, changes) {
       const i = data[name].findIndex(fn);
       if (i === -1) return null;
       data[name][i] = { ...data[name][i], ...changes, updatedAt: new Date().toISOString() };
-      save();
+      await save();
       return data[name][i];
     },
-    remove(fn) {
+    async remove(fn) {
       const before = data[name].length;
       data[name] = data[name].filter((x) => !fn(x));
-      save();
+      await save();
       return before - data[name].length;
     },
   };
 }
 
-function setData(mutator) {
+async function setData(mutator) {
   load();
   mutator(data);
-  save();
+  await save();
   return data;
 }
 
@@ -99,4 +152,4 @@ function getData() {
   return load();
 }
 
-module.exports = { collection, getData, setData, defaults, save, load };
+module.exports = { collection, getData, setData, defaults, save, load, hydrate };

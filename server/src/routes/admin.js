@@ -55,18 +55,18 @@ router.get('/users', (req, res) => {
   res.json({ total: users.length, users });
 });
 
-router.put('/users/:id', (req, res) => {
+router.put('/users/:id', async (req, res) => {
   const { role, password } = req.body || {};
   const updates = {};
   if (role !== undefined) updates.role = role;
   if (password) updates.passwordHash = bcrypt.hashSync(String(password), 10);
-  const user = db.collection('users').update((u) => u.id === req.params.id, updates);
+  const user = await db.collection('users').update((u) => u.id === req.params.id, updates);
   if (!user) return res.status(404).json({ error: 'User not found' });
   res.json({ user });
 });
 
-router.delete('/users/:id', (req, res) => {
-  const removed = db.collection('users').remove((u) => u.id === req.params.id);
+router.delete('/users/:id', async (req, res) => {
+  const removed = await db.collection('users').remove((u) => u.id === req.params.id);
   res.json({ removed });
 });
 
@@ -75,9 +75,9 @@ router.get('/settings', (req, res) => {
   res.json({ settings: db.getData().settings });
 });
 
-router.put('/settings', (req, res) => {
+router.put('/settings', async (req, res) => {
   const current = db.getData().settings || {};
-  db.setData((d) => {
+  await db.setData((d) => {
     d.settings = { ...current, ...req.body };
   });
   res.json({ settings: db.getData().settings });

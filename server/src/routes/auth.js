@@ -10,7 +10,7 @@ function publicUser(u) {
   return { id: u.id, name: u.name, email: u.email, role: u.role, createdAt: u.createdAt };
 }
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   const { name, email, password } = req.body || {};
   if (!name || !email || !password) {
     return res.status(400).json({ error: 'பெயர், மின்னஞ்சல், கடவுச்சொல் தேவை' });
@@ -21,7 +21,7 @@ router.post('/register', (req, res) => {
   if (users().findOne((u) => String(u.email).toLowerCase() === String(email).toLowerCase())) {
     return res.status(409).json({ error: 'இந்த மின்னஞ்சல் ஏற்கனவே பயன்பாட்டில் உள்ளது' });
   }
-  const user = users().insert({
+  const user = await users().insert({
     name,
     email,
     passwordHash: bcrypt.hashSync(String(password), 10),

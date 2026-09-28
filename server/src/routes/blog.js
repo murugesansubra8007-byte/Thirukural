@@ -15,10 +15,10 @@ router.get('/:slug', (req, res) => {
   res.json({ post });
 });
 
-router.post('/', adminOnly, (req, res) => {
+router.post('/', adminOnly, async (req, res) => {
   const { title, slug, excerpt, content, coverColor, author, tags } = req.body || {};
   if (!title || !content) return res.status(400).json({ error: 'title, content required' });
-  const post = db.collection('blogPosts').insert({
+  const post = await db.collection('blogPosts').insert({
     title,
     slug: slug || String(title).toLowerCase().replace(/[^a-z0-9\u0b80-\u0bff]+/g, '-'),
     excerpt: excerpt || '',
@@ -31,7 +31,7 @@ router.post('/', adminOnly, (req, res) => {
   res.json({ post });
 });
 
-router.put('/:id', adminOnly, (req, res) => {
+router.put('/:id', adminOnly, async (req, res) => {
   const { title, slug, excerpt, content, coverColor, author, tags } = req.body || {};
   const updates = {};
   if (title !== undefined) updates.title = title;
@@ -42,13 +42,13 @@ router.put('/:id', adminOnly, (req, res) => {
   if (author !== undefined) updates.author = author;
   if (tags !== undefined) updates.tags = tags;
   updates.updatedAt = new Date().toISOString();
-  const post = db.collection('blogPosts').update((p) => p.id === req.params.id, updates);
+  const post = await db.collection('blogPosts').update((p) => p.id === req.params.id, updates);
   if (!post) return res.status(404).json({ error: 'Not found' });
   res.json({ post });
 });
 
-router.delete('/:id', adminOnly, (req, res) => {
-  const removed = db.collection('blogPosts').remove((p) => p.id === req.params.id);
+router.delete('/:id', adminOnly, async (req, res) => {
+  const removed = await db.collection('blogPosts').remove((p) => p.id === req.params.id);
   res.json({ removed });
 });
 

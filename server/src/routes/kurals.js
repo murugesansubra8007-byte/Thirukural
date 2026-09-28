@@ -26,7 +26,7 @@ const SEARCH_FIELDS = [
   'paalName',
 ];
 
-router.get('/search', (req, res) => {
+router.get('/search', async (req, res) => {
   const q = String(req.query.q || '').trim();
   if (!q) return res.json({ query: q, count: 0, results: [] });
 
@@ -63,9 +63,9 @@ router.get('/search', (req, res) => {
   const searches = db.collection('searchQueries');
   const existing = searches.findOne((s) => s.query.toLowerCase() === q.toLowerCase());
   if (existing) {
-    searches.update((s) => s.id === existing.id, { count: existing.count + 1, lastAt: new Date().toISOString() });
+    await searches.update((s) => s.id === existing.id, { count: existing.count + 1, lastAt: new Date().toISOString() });
   } else {
-    searches.insert({ query: q, count: 1, lastAt: new Date().toISOString() });
+    await searches.insert({ query: q, count: 1, lastAt: new Date().toISOString() });
   }
 
   res.json({ query: q, count: results.length, results });
@@ -105,7 +105,7 @@ router.get('/:number', (req, res) => {
   res.json({ kural, prev: { number: prev.number, line1: prev.line1, line2: prev.line2 }, next: { number: next.number, line1: next.line1, line2: next.line2 } });
 });
 
-router.put('/:number', adminOnly, (req, res) => {
+router.put('/:number', adminOnly, async (req, res) => {
   const n = String(req.params.number);
   const kural = data.kuralByNumber(n);
   if (!kural) return res.status(404).json({ error: 'குறள் கிடைக்கவில்லை' });
@@ -124,7 +124,7 @@ router.put('/:number', adminOnly, (req, res) => {
   if (wordMeanings !== undefined) allowed.wordMeanings = Array.isArray(wordMeanings) ? wordMeanings : [];
   if (audioUrl !== undefined) allowed.audioUrl = String(audioUrl);
 
-  db.setData((d) => {
+  await db.setData((d) => {
     d.kuralOverrides = d.kuralOverrides || {};
     d.kuralOverrides[n] = { ...(d.kuralOverrides[n] || {}), ...allowed };
   });

@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { isFavorite, toggleFavorite } from '../api';
 import Icon from './Icon';
 
-/* ---------- Audio (Tamil voice, clear + per-line) ---------- */
+/* ---------- Audio (natural Google Tamil voice, per-line, clear) ---------- */
+function gttsUrl(text) {
+  return `https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&q=${encodeURIComponent(text)}&tl=ta`;
+}
+
 function pickTamilVoice() {
   let voices = [];
   try {
@@ -27,45 +31,80 @@ function pickTamilVoice() {
 }
 
 let speakToken = 0;
+let currentAudio = null;
 
-export function speak(text, { rate = 0.85, slow = false } = {}) {
+function delay(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+function playMp3(url) {
+  if (!('Audio' in window)) return Promise.resolve(false);
+  return new Promise((resolve) => {
+    const a = new window.Audio(url);
+    currentAudio = a;
+    const done = (v) => {
+      if (currentAudio === a) currentAudio = null;
+      resolve(v);
+    };
+    a.onended = () => done(true);
+    a.onpause = () => done(false);
+    a.onerror = () => done(false);
+    a.play().catch(() => done(false));
+  });
+}
+
+function speakTts(text, rate, slow, token) {
   if (!('speechSynthesis' in window)) return Promise.resolve(false);
   window.speechSynthesis.cancel();
-  const token = ++speakToken;
-  const voice = pickTamilVoice();
+  return new Promise((resolve) => {
+    const u = new SpeechSynthesisUtterance(text);
+    const voice = pickTamilVoice();
+    if (voice) u.voice = voice;
+    u.lang = voice ? voice.lang : 'ta-IN';
+    u.rate = slow ? rate * 0.68 : rate;
+    u.pitch = 1;
+    u.volume = 1;
+    u.onend = () => (token === speakToken ? resolve(true) : resolve(false));
+    u.onerror = () => resolve(false);
+    window.speechSynthesis.speak(u);
+  });
+}
+
+export function speak(text, { rate = 0.85, slow = false } = {}) {
   const lines = String(text)
     .split('\n')
     .map((s) => s.trim())
     .filter(Boolean);
+  if (!lines.length) return Promise.resolve(false);
+  if (!('Audio' in window) && !('speechSynthesis' in window)) return Promise.resolve(false);
 
-  return new Promise((resolve) => {
-    let i = 0;
-    const next = () => {
-      if (token !== speakToken) return resolve(false);
-      if (i >= lines.length) return resolve(true);
-      const u = new SpeechSynthesisUtterance(lines[i]);
-      if (voice) u.voice = voice;
-      u.lang = voice ? voice.lang : 'ta-IN';
-      u.rate = slow ? rate * 0.68 : rate;
-      u.pitch = 1;
-      u.volume = 1;
-      u.onend = () => {
-        i += 1;
-        next();
-      };
-      u.onerror = (e) => {
-        if (e && (e.error === 'canceled' || e.error === 'interrupted')) return resolve(false);
-        i += 1;
-        next();
-      };
-      window.speechSynthesis.speak(u);
-    };
-    next();
-  });
+  const token = ++speakToken;
+  const pauseMs = slow ? 460 : 260;
+
+  return (async () => {
+    for (const line of lines) {
+      if (token !== speakToken) return false;
+      const ok = await playMp3(gttsUrl(line));
+      if (!ok && token === speakToken) {
+        return speakTts(lines.join(' '), rate, slow, token);
+      }
+      if (pauseMs) await delay(pauseMs);
+      if (token !== speakToken) return false;
+    }
+    return true;
+  })();
 }
 
 export function stopSpeak() {
   speakToken += 1;
+  if (currentAudio) {
+    try {
+      currentAudio.pause();
+    } catch (e) {
+      /* ignore */
+    }
+    currentAudio = null;
+  }
   if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
 

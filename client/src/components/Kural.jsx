@@ -104,11 +104,22 @@ export function ShareButton({ kural, small = false, labelOnly = false }) {
 }
 
 /* ---------- Kural verse ---------- */
+function wordPills(text) {
+  return text
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w, i) => (
+      <span className="vword" key={i}>
+        {w}
+      </span>
+    ));
+}
+
 export function Verse({ kural, large = false }) {
   return (
     <p className={`verse${large ? ' verse-large' : ''}`}>
-      <span className="l1">{kural.line1}</span>
-      <span className="l2">{kural.line2}</span>
+      <span className="l1">{large ? wordPills(kural.line1) : kural.line1}</span>
+      <span className="l2">{large ? wordPills(kural.line2) : kural.line2}</span>
     </p>
   );
 }

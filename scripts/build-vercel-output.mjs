@@ -20,7 +20,10 @@ if (!existsSync(clientDist)) {
 
 cpSync(clientDist, staticDir, { recursive: true });
 
-const esbuildBin = join(root, 'node_modules', '.bin', process.platform === 'win32' ? 'esbuild.cmd' : 'esbuild');
+const esbuildBin =
+  (existsSync(join(root, 'client', 'node_modules', '.bin', process.platform === 'win32' ? 'esbuild.cmd' : 'esbuild')) &&
+    join(root, 'client', 'node_modules', '.bin', process.platform === 'win32' ? 'esbuild.cmd' : 'esbuild')) ||
+  join(root, 'node_modules', '.bin', process.platform === 'win32' ? 'esbuild.cmd' : 'esbuild');
 const bundlePath = join(funcDir, 'index.js');
 execSync(
   `"${esbuildBin}" api/index.js --bundle --platform=node --format=cjs --target=node20 --outfile="${bundlePath}"`,

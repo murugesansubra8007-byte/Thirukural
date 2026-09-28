@@ -17,6 +17,7 @@
     "build-data": "npm run build-data -w server"
   },
   "devDependencies": {
-    "concurrently": "^9.1.0"
+    "concurrently": "^9.1.0",
+    "esbuild": "^0.25.0"
   }
 }

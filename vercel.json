@@ -1,9 +1,6 @@
 {
-  "buildCommand": "npm run build && node ../scripts/postbuild.mjs",
-  "outputDirectory": "dist",
-  "functions": { "api/index.js": { "maxDuration": 30 } },
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
-  ]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "npm run build && node scripts/build-vercel-output.mjs",
+  "outputDirectory": ".vercel/output"
 }

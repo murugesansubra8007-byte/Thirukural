@@ -1094,15 +1094,11 @@ a.card:hover {
 }
 
 .kural-slab {
-  background:
-    linear-gradient(180deg, rgba(251, 246, 233, 0.28), rgba(246, 238, 218, 0.28)),
-    url('/olaichuvadi.png') center / cover no-repeat,
-    #f6eeda;
-  border: 1px solid var(--line-strong);
-  border-left: 4px solid var(--gold);
-  border-radius: var(--radius);
-  padding: 26px 26px 22px;
-  box-shadow: var(--shadow-sm);
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
   position: relative;
 }
 
@@ -1245,15 +1241,12 @@ a.card:hover {
 }
 
 .today-card {
-  background:
-    linear-gradient(180deg, rgba(252, 247, 236, 0.3), rgba(245, 236, 218, 0.3)),
-    url('/olaichuvadi.png') center / cover no-repeat,
-    #f5ecda;
+  background: none;
   border: 1px solid var(--line-strong);
   border-top: 6px solid var(--gold);
   border-radius: 20px;
   padding: 34px 30px;
-  box-shadow: var(--shadow);
+  box-shadow: none;
   text-align: center;
 }
 
@@ -1300,12 +1293,28 @@ a.card:hover {
 }
 
 .today-kural .verse {
+  background:
+    linear-gradient(180deg, rgba(252, 247, 236, 0.12), rgba(245, 236, 218, 0.12)),
+    url('/olaichuvadi.png') center / cover no-repeat,
+    #f5ecda;
+  border: 1px solid rgba(194, 145, 46, 0.5);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+  padding: 18px 20px;
   font-weight: 700;
   letter-spacing: 0.4px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 .kural-slab .verse-large {
+  background:
+    linear-gradient(180deg, rgba(251, 246, 233, 0.15), rgba(246, 238, 218, 0.15)),
+    url('/olaichuvadi.png') center / cover no-repeat,
+    #f6eeda;
+  border: 1px solid rgba(194, 145, 46, 0.5);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+  padding: 22px 26px;
   font-weight: 800;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }

@@ -100,9 +100,14 @@ router.get('/', (req, res) => {
 router.get('/:number', (req, res) => {
   const kural = data.kuralByNumber(req.params.number);
   if (!kural) return res.status(404).json({ error: 'குறள் கிடைக்கவில்லை' });
+  const urais = data.uraiByNumber(kural.number);
   const prev = data.kuralByNumber(kural.number === 1 ? 1330 : kural.number - 1);
   const next = data.kuralByNumber(kural.number === 1330 ? 1 : kural.number + 1);
-  res.json({ kural, prev: { number: prev.number, line1: prev.line1, line2: prev.line2 }, next: { number: next.number, line1: next.line1, line2: next.line2 } });
+  res.json({
+    kural: { ...kural, urais: urais ? { ...urais } : null },
+    prev: { number: prev.number, line1: prev.line1, line2: prev.line2 },
+    next: { number: next.number, line1: next.line1, line2: next.line2 },
+  });
 });
 
 router.put('/:number', adminOnly, async (req, res) => {

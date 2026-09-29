@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, todayKuralNumber } from '../api';
 import { Loading, SectionHead, KolamStrip } from '../components';
-import { KuralRow, AudioButton, ShareButton, PaalCard, Verse } from '../components/Kural';
+import { KuralRow, ShareButton, PaalCard, Verse } from '../components/Kural';
 import Icon from '../components/Icon';
 
 export default function Home() {
@@ -76,7 +76,6 @@ export default function Home() {
                 </span>
               </div>
               <div className="row mt-2">
-                <AudioButton text={`${today.line1}\n${today.line2}`} />
                 <ShareButton kural={today} />
                 <Link to={`/kural/${today.number}`} className="btn btn-primary btn-sm">
                   முழு விளக்கம் →
@@ -147,9 +146,33 @@ const CATEGORY_SNIPPETS = [
   { icon: 'flame', label: 'காதல்', slug: 'love' },
 ];
 
+function CountUp({ to, duration = 1500 }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    let raf;
+    const t0 = performance.now();
+    const tick = (t) => {
+      const p = Math.min(1, (t - t0) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setN(Math.round(to * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, duration]);
+  return <>{n}</>;
+}
+
 function Hero() {
   return (
     <div className="hero">
+      <div className="hero-glow glow-a" />
+      <div className="hero-glow glow-b" />
+      <span className="hero-particle p1" />
+      <span className="hero-particle p2" />
+      <span className="hero-particle p3" />
+      <span className="hero-particle p4" />
+      <span className="hero-particle p5" />
       <div className="hero-ornament">
         <span className="line" />
         <span className="hero-eyebrow">திருக்குறள்</span>
@@ -171,15 +194,15 @@ function Hero() {
       </div>
       <div className="hero-stats">
         <div className="stat">
-          <b>1330</b>
+          <b><CountUp to={1330} /></b>
           <span>குறள்கள்</span>
         </div>
         <div className="stat">
-          <b>133</b>
+          <b><CountUp to={133} /></b>
           <span>அதிகாரங்கள்</span>
         </div>
         <div className="stat">
-          <b>3</b>
+          <b><CountUp to={3} /></b>
           <span>பால்கள்</span>
         </div>
       </div>

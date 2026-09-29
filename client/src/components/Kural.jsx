@@ -1,148 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isFavorite, toggleFavorite } from '../api';
 import Icon from './Icon';
-
-/* ---------- Audio (natural Google Tamil voice, per-line, clear) ---------- */
-function gttsUrl(text) {
-  return `https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&q=${encodeURIComponent(text)}&tl=ta`;
-}
-
-function pickTamilVoice() {
-  let voices = [];
-  try {
-    voices = window.speechSynthesis.getVoices();
-  } catch (e) {
-    return null;
-  }
-  const ta = voices.filter((v) => (v.lang || '').toLowerCase().startsWith('ta'));
-  if (!ta.length) return null;
-  const score = (v) => {
-    const n = (v.name || '').toLowerCase();
-    let s = 0;
-    if (n.includes('google')) s += 100;
-    if (n.includes('dhivya') || n.includes('kavya')) s += 95;
-    if (n.includes('microsoft')) s += 60;
-    if ((v.lang || '').toLowerCase() === 'ta-in') s += 35;
-    if (n.includes('zira') || n.includes('heera')) s += 15;
-    return s - n.length * 0.001;
-  };
-  return ta.sort((a, b) => score(b) - score(a))[0];
-}
-
-let speakToken = 0;
-let currentAudio = null;
-
-function delay(ms) {
-  return new Promise((r) => setTimeout(r, ms));
-}
-
-function playMp3(url) {
-  if (!('Audio' in window)) return Promise.resolve(false);
-  return new Promise((resolve) => {
-    const a = new window.Audio(url);
-    currentAudio = a;
-    const done = (v) => {
-      if (currentAudio === a) currentAudio = null;
-      resolve(v);
-    };
-    a.onended = () => done(true);
-    a.onpause = () => done(false);
-    a.onerror = () => done(false);
-    a.play().catch(() => done(false));
-  });
-}
-
-function speakTts(text, rate, slow, token) {
-  if (!('speechSynthesis' in window)) return Promise.resolve(false);
-  window.speechSynthesis.cancel();
-  return new Promise((resolve) => {
-    const u = new SpeechSynthesisUtterance(text);
-    const voice = pickTamilVoice();
-    if (voice) u.voice = voice;
-    u.lang = voice ? voice.lang : 'ta-IN';
-    u.rate = slow ? rate * 0.68 : rate;
-    u.pitch = 1;
-    u.volume = 1;
-    u.onend = () => (token === speakToken ? resolve(true) : resolve(false));
-    u.onerror = () => resolve(false);
-    window.speechSynthesis.speak(u);
-  });
-}
-
-export function speak(text, { rate = 0.85, slow = false } = {}) {
-  const lines = String(text)
-    .split('\n')
-    .map((s) => s.trim())
-    .filter(Boolean);
-  if (!lines.length) return Promise.resolve(false);
-  if (!('Audio' in window) && !('speechSynthesis' in window)) return Promise.resolve(false);
-
-  const token = ++speakToken;
-  const pauseMs = slow ? 460 : 260;
-
-  return (async () => {
-    for (const line of lines) {
-      if (token !== speakToken) return false;
-      const ok = await playMp3(gttsUrl(line));
-      if (!ok && token === speakToken) {
-        return speakTts(lines.join(' '), rate, slow, token);
-      }
-      if (pauseMs) await delay(pauseMs);
-      if (token !== speakToken) return false;
-    }
-    return true;
-  })();
-}
-
-export function stopSpeak() {
-  speakToken += 1;
-  if (currentAudio) {
-    try {
-      currentAudio.pause();
-    } catch (e) {
-      /* ignore */
-    }
-    currentAudio = null;
-  }
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-}
-
-export function AudioButton({ text, label = 'கேளுங்கள்', rate = 0.85, slow = false, small = false }) {
-  const [state, setState] = useState('idle');
-  const runId = useRef(0);
-
-  const play = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (state === 'speaking') {
-      runId.current += 1;
-      stopSpeak();
-      setState('idle');
-      return;
-    }
-    const id = ++runId.current;
-    setState('speaking');
-    const done = await speak(text, { rate, slow });
-    if (id === runId.current) setState(done ? 'done' : 'idle');
-  };
-
-  const icon = state === 'speaking' ? 'pause' : state === 'done' ? 'play' : slow ? 'clock' : 'volume';
-  const word = state === 'speaking' ? 'நிறுத்து' : state === 'done' ? 'மீண்டும் கேள்' : slow ? 'மெதுவாகக் கேள்' : label;
-  const hint =
-    state === 'speaking' ? 'நிறுத்து' : state === 'done' ? 'மீண்டும் கேளுங்கள்' : state === 'idle' && slow ? 'மெதுவான உச்சரிப்பு' : label;
-
-  return (
-    <button className={`btn btn-ghost${small ? ' btn-sm' : ''}`} onClick={play} title={hint}>
-      <Icon name={icon} size={16} />
-      {word}
-    </button>
-  );
-}
-
-export function SlowAudioButton({ text, rate = 0.85 }) {
-  return <AudioButton text={text} rate={rate} slow label="மெதுவாகக் கேள்" />;
-}
 
 /* ---------- Favorites ---------- */
 export function FavoriteButton({ number, small = false }) {
@@ -223,6 +82,67 @@ export function Verse({ kural, large = false }) {
     <div className="leaf-wrap">
       <img className="leaf-img" src="/olaichuvadi.png" alt="" aria-hidden="true" draggable={false} loading="lazy" />
       <p className="verse verse-large leaf-verse">{lines}</p>
+    </div>
+  );
+}
+
+/* ---------- Urai (commentaries) ---------- */
+const URAI_ORDER = [
+  { key: 'manakkudavar', name: 'மணக்குடவர்', tag: 'மிகப் பழைய மரபுச் சுவடி · 10ம் நூற்றாண்டு', chip: 'ம', color: 'stone' },
+  { key: 'parimelazhagar', name: 'பரிமேலழகர்', tag: 'முழுமையான மரபு உரை · 13ம் நூற்றாண்டு', chip: 'ப', color: 'terracotta' },
+  { key: 'varadharasanar', name: 'மு. வரதராசனார்', tag: 'செந்தமிழ் தெளிவுரை · 20ம் நூற்றாண்டு', chip: 'வ', color: 'leaf' },
+  { key: 'karunanidhi', name: 'கலைஞர்', tag: 'எளிய நடை உரை · 20ம் நூற்றாண்டு', chip: 'க', color: 'gold' },
+];
+
+export function UraiList({ urais }) {
+  const present = URAI_ORDER.filter((u) => urais && urais[u.key]);
+  const [open, setOpen] = useState(() => (present.length ? new Set([present[0].key]) : new Set()));
+  if (!present.length) return null;
+
+  const allOpen = open.size === present.length;
+
+  const toggle = (key) =>
+    setOpen((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+
+  const toggleAll = () => setOpen(allOpen ? new Set() : new Set(present.map((u) => u.key)));
+
+  return (
+    <div className="urai-list">
+      <div className="urai-toolbar">
+        <span>
+          <b>உரையாசிரியர்கள்</b> · {present.length} வகை
+        </span>
+        <button className="btn btn-ghost btn-sm" onClick={toggleAll}>
+          <Icon name="layers" size={14} />
+          {allOpen ? 'எல்லாம் மடக்கு' : 'எல்லாம் விரி'}
+        </button>
+      </div>
+      {present.map((u) => {
+        const isOpen = open.has(u.key);
+        return (
+          <div className={`urai-block urai-${u.color}${isOpen ? ' open' : ''}`} key={u.key}>
+            <button className="urai-head" onClick={() => toggle(u.key)} aria-expanded={isOpen}>
+              <span className="urai-chip">{u.chip}</span>
+              <span className="urai-titles">
+                <span className="urai-name">{u.name}</span>
+                <span className="urai-tag">{u.tag}</span>
+                {!isOpen && <span className="urai-preview">{urais[u.key].slice(0, 72)}…</span>}
+              </span>
+              <Icon name="chevron-down" className="urai-chev" size={18} />
+            </button>
+            <div className="urai-body">
+              <div className="urai-body-inner">
+                <p>{urais[u.key]}</p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

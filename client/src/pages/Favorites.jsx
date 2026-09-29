@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, getFavorites } from '../api';
 import { Loading, PageHead, EmptyState } from '../components';
-import { AudioButton, FavoriteButton, ShareButton, KuralRow } from '../components/Kural';
+import { FavoriteButton, ShareButton, KuralRow } from '../components/Kural';
 import Icon from '../components/Icon';
 
 function readVisited() {
@@ -80,7 +80,6 @@ export default function Favorites() {
                     </span>
                     <span className="m">{k.chapterName}</span>
                   </Link>
-                  <AudioButton text={`${k.line1}\n${k.line2}`} small />
                   <ShareButton kural={k} small />
                   <button className="icon-btn" title="நீக்கு" onClick={() => remove(k.number)}>
                     <Icon name="trash" size={15} />

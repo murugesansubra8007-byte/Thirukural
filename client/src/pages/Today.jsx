@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, formatDateKeys, todayKuralNumber } from '../api';
 import { Loading, PaalBadge } from '../components';
-import { Verse, AudioButton, SlowAudioButton, FavoriteButton, ShareButton, Tabs } from '../components/Kural';
+import { Verse, FavoriteButton, ShareButton, Tabs, UraiList } from '../components/Kural';
 import Icon from '../components/Icon';
 
 export default function Today() {
@@ -17,7 +17,6 @@ export default function Today() {
   if (error) return <div className="container"><p className="notice">{error}</p></div>;
   if (!kural) return <Loading />;
 
-  const line = `${kural.line1}\n${kural.line2}`;
   const shareText = `குறள் ${kural.number} — ${kural.line1} ${kural.line2}\nhttps://kuralagam.in/kural/${kural.number}`;
   const shareLinks = [
     { name: 'WhatsApp', href: `https://wa.me/?text=${encodeURIComponent(shareText)}` },
@@ -51,7 +50,6 @@ export default function Today() {
                   விளக்கத்தைப் பார்க்க →
                 </Link>
                 <ShareButton kural={kural} />
-                <AudioButton text={line} />
               </div>
 
               <div className="share-row">
@@ -84,7 +82,6 @@ export default function Today() {
                 </p>
                 <div className="row">
                   <FavoriteButton number={kural.number} />
-                  <SlowAudioButton text={line} />
                 </div>
               </div>
             </aside>
@@ -94,6 +91,7 @@ export default function Today() {
             <Tabs
               items={[
                 { key: 'en', label: 'English Meaning' },
+                ...(kural.urais ? [{ key: 'urais', label: 'உரைகள்' }] : []),
                 ...(kural.wordMeanings && kural.wordMeanings.length ? [{ key: 'words', label: 'சொற்பொருள்' }] : []),
               ]}
             >
@@ -103,6 +101,8 @@ export default function Today() {
                     <p>{kural.englishTranslation}</p>
                     {kural.couplet && <p>{kural.couplet}</p>}
                   </div>
+                ) : tab.key === 'urais' ? (
+                  <UraiList urais={kural.urais} />
                 ) : (
                   <table className="word-table">
                     <thead>

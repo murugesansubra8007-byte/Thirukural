@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
 import { Loading, EmptyState, PaalBadge } from '../components';
-import { Verse, AudioButton, SlowAudioButton, FavoriteButton, ShareButton, Tabs } from '../components/Kural';
+import { Verse, FavoriteButton, ShareButton, Tabs, UraiList } from '../components/Kural';
 import Icon from '../components/Icon';
 
 export default function KuralDetail() {
@@ -67,8 +67,6 @@ export default function KuralDetail() {
             <div className="row mt-2" style={{ justifyContent: 'center' }}>
               <FavoriteButton number={kural.number} />
               <ShareButton kural={kural} />
-              <AudioButton text={line} />
-              <SlowAudioButton text={line} />
             </div>
           </div>
 
@@ -78,6 +76,7 @@ export default function KuralDetail() {
                 { key: 'simple', label: 'எளிய பொருள்' },
                 { key: 'detail', label: 'விளக்கம்' },
                 { key: 'en', label: 'English' },
+                ...(kural.urais ? [{ key: 'urais', label: 'உரைகள்' }] : []),
                 ...(kural.wordMeanings && kural.wordMeanings.length ? [{ key: 'words', label: 'சொற்பொருள்' }] : []),
               ]}
             >
@@ -101,6 +100,7 @@ export default function KuralDetail() {
                       {kural.couplet && <p>{kural.couplet}</p>}
                     </div>
                   );
+                if (tab.key === 'urais') return <UraiList urais={kural.urais} />;
                 return (
                   <table className="word-table">
                     <thead>

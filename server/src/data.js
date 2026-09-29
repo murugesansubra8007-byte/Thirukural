@@ -3,12 +3,21 @@ const config = require('../config');
 const db = require('./db');
 
 let data = null;
+let urais = null;
 
 function load() {
   if (!data) {
     data = JSON.parse(fs.readFileSync(config.DATA_FILE, 'utf8'));
   }
   return data;
+}
+
+function loadUrais() {
+  if (!urais) {
+    const rows = JSON.parse(fs.readFileSync(config.URAIS_FILE, 'utf8'));
+    urais = new Map(rows.map((r) => [Number(r.number), r]));
+  }
+  return urais;
 }
 
 function paals() {
@@ -62,6 +71,10 @@ function categoryKurals(category) {
   return kuralSummaries().filter((k) => map.has(k.chapterNumber));
 }
 
+function uraiByNumber(number) {
+  return loadUrais().get(Number(number)) || null;
+}
+
 module.exports = {
   paals,
   chapters,
@@ -70,4 +83,5 @@ module.exports = {
   chapterByNumber,
   kuralSummaries,
   categoryKurals,
+  uraiByNumber,
 };

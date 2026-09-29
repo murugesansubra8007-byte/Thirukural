@@ -35,6 +35,9 @@ try {
 
 mkdirSync(join(funcDir, 'data'), { recursive: true });
 copyFileSync(join(root, 'server', 'data', 'kurals.json'), join(funcDir, 'data', 'kurals.json'));
+if (existsSync(join(root, 'server', 'data', 'urais.json'))) {
+  copyFileSync(join(root, 'server', 'data', 'urais.json'), join(funcDir, 'data', 'urais.json'));
+}
 if (existsSync(join(root, 'server', 'data', 'db.json'))) {
   copyFileSync(join(root, 'server', 'data', 'db.json'), join(funcDir, 'data', 'db.json'));
 }

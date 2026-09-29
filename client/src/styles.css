@@ -1310,10 +1310,17 @@ a.card:hover {
   justify-content: center;
   gap: 0.08em;
   margin: 0;
-  padding: 0 4%;
+  padding: 0 2%;
   font-weight: 800;
   line-height: 1.9;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.leaf-wrap .verse .l1::before,
+.leaf-wrap .verse .l1::after,
+.leaf-wrap .verse .l2::before,
+.leaf-wrap .verse .l2::after {
+  display: none;
 }
 
 .today-kural .leaf-verse {
@@ -1389,17 +1396,6 @@ a.card:hover {
 
 .vword {
   white-space: nowrap;
-  padding: 0.04em 0.2em;
-  border-radius: 8px;
-  background: rgba(194, 145, 46, 0.08);
-  border: 1px solid rgba(194, 145, 46, 0.18);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  transition: background 160ms ease, border-color 160ms ease;
-}
-
-.vword:hover {
-  background: rgba(194, 145, 46, 0.17);
-  border-color: rgba(194, 145, 46, 0.3);
 }
 
 .today-actions {

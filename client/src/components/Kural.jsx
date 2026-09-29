@@ -212,11 +212,18 @@ function wordPills(text) {
 }
 
 export function Verse({ kural, large = false }) {
-  return (
-    <p className={`verse${large ? ' verse-large' : ''}`}>
+  const lines = (
+    <>
       <span className="l1">{large ? wordPills(kural.line1) : kural.line1}</span>
       <span className="l2">{large ? wordPills(kural.line2) : kural.line2}</span>
-    </p>
+    </>
+  );
+  if (!large) return <p className="verse">{lines}</p>;
+  return (
+    <div className="leaf-wrap">
+      <img className="leaf-img" src="/olaichuvadi.png" alt="" aria-hidden="true" draggable={false} loading="lazy" />
+      <p className="verse verse-large leaf-verse">{lines}</p>
+    </div>
   );
 }
 

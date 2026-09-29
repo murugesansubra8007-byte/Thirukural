@@ -1351,6 +1351,12 @@ a.card:hover {
   }
 }
 
+@media (min-width: 861px) {
+  .leaf-wrap .leaf-verse {
+    padding-top: clamp(20px, 2.6vw, 34px);
+  }
+}
+
 .kural-slab .verse-large .l1,
 .kural-slab .verse-large .l2 {
   display: flex;

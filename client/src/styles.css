@@ -1290,13 +1290,16 @@ a.card:hover {
 .leaf-wrap {
   position: relative;
   width: 100%;
+  height: clamp(120px, 16vw, 185px);
   line-height: 0;
 }
 
 .leaf-wrap .leaf-img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   pointer-events: none;
   user-select: none;
 }

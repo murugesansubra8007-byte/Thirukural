@@ -15,7 +15,6 @@ import LearnDeep from './pages/LearnDeep';
 import AboutValluvar from './pages/AboutValluvar';
 import Quiz from './pages/Quiz';
 import Favorites from './pages/Favorites';
-import { Blog, BlogArticle } from './pages/Blog';
 
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -23,7 +22,6 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminKurals from './pages/admin/AdminKurals';
 import AdminChapters from './pages/admin/AdminChapters';
 import AdminCategories from './pages/admin/AdminCategories';
-import AdminBlog from './pages/admin/AdminBlog';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminQuiz from './pages/admin/AdminQuiz';
 import AdminSettings from './pages/admin/AdminSettings';
@@ -64,8 +62,6 @@ export default function App() {
             <Route path="/about-valluvar" element={<AboutValluvar />} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/favorites" element={<Favorites />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogArticle />} />
             <Route path="*" element={<NotFound />} />
           </Route>
 
@@ -76,7 +72,6 @@ export default function App() {
             <Route path="kurals" element={<AdminKurals />} />
             <Route path="chapters" element={<AdminChapters />} />
             <Route path="categories" element={<AdminCategories />} />
-            <Route path="blog" element={<AdminBlog />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="quiz" element={<AdminQuiz />} />
             <Route path="settings" element={<AdminSettings />} />

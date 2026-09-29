@@ -63,7 +63,6 @@ export default function AboutValluvar() {
 
           <div className="row mt-3">
             <Link to="/learn" className="btn btn-primary">கற்றலைத் தொடங்கு →</Link>
-            <Link to="/blog" className="btn btn-ghost">வலைக்கட்டுரைகள்</Link>
           </div>
         </div>
       </section>

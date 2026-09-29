@@ -8,7 +8,6 @@ const LINKS = [
   { to: '/admin/kurals', icon: 'file-text', label: 'Kurals' },
   { to: '/admin/chapters', icon: 'book-open', label: 'Chapters' },
   { to: '/admin/categories', icon: 'layers', label: 'Categories' },
-  { to: '/admin/blog', icon: 'pen', label: 'Blog' },
   { to: '/admin/users', icon: 'users', label: 'Users' },
   { to: '/admin/quiz', icon: 'help', label: 'Quiz' },
   { to: '/admin/settings', icon: 'settings', label: 'Settings' },

@@ -14,7 +14,6 @@ app.use('/api/kurals', require('./routes/kurals'));
 app.use('/api/chapters', require('./routes/chapters'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/quiz', require('./routes/quiz'));
-app.use('/api/blog', require('./routes/blog'));
 app.use('/api/stats', require('./routes/stats'));
 app.use('/api/admin', require('./routes/admin'));
 

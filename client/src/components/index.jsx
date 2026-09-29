@@ -181,7 +181,6 @@ export function Footer() {
             <li><Link to="/learn">திருக்குறள் அறிமுகம்</Link></li>
             <li><Link to="/learn">133 + 1330 + 3 அமைப்பு</Link></li>
             <li><Link to="/about-valluvar">திருவள்ளுவர்</Link></li>
-            <li><Link to="/blog">வலைக்கட்டுரைகள்</Link></li>
           </ul>
         </div>
         <div className="footer-col">

@@ -109,21 +109,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section section-alt">
-        <div className="container">
-          <SectionHead
-            kicker="எழுத்துகள்"
-            title="வள்ளுவத்தைக் குறித்து"
-            right={
-              <Link to="/blog" className="btn btn-outline btn-sm">
-                மேலும் →
-              </Link>
-            }
-          />
-          <BlogPreview />
-        </div>
-      </section>
-
       <section className="section">
         <div className="container" style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(280px,1fr))' }}>
           <Link to="/learn" className="card info-card">
@@ -198,30 +183,6 @@ function Hero() {
           <span>பால்கள்</span>
         </div>
       </div>
-    </div>
-  );
-}
-
-function BlogPreview() {
-  const [posts, setPosts] = useState(null);
-  useEffect(() => {
-    api('/blog').then((d) => setPosts(d.posts.slice(0, 3))).catch(() => setPosts([]));
-  }, []);
-  if (!posts) return <Loading />;
-  return (
-    <div className="grid grid-3">
-      {posts.map((p) => (
-        <Link key={p.id} to={`/blog/${p.slug}`} className="card blog-card">
-          <div className="row">
-            <span className="tag">✦ {p.author}</span>
-          </div>
-          <h3>{p.title}</h3>
-          <p>{p.excerpt}</p>
-          <span className="muted" style={{ fontSize: 13 }}>
-            {new Date(p.publishedAt).toLocaleDateString('ta-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-          </span>
-        </Link>
-      ))}
     </div>
   );
 }

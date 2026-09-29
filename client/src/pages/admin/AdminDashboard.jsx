@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { api } from '../../api';
 import { Loading } from '../../components';
 import Icon from '../../components/Icon';
@@ -12,7 +11,7 @@ export default function AdminDashboard() {
   }, []);
 
   if (!data) return <Loading />;
-  const { stats, visits, topSearches, recentPosts } = data;
+  const { stats, visits, topSearches } = data;
   const maxVisits = Math.max(1, ...visits.map((v) => v.count));
 
   const tiles = [
@@ -21,7 +20,6 @@ export default function AdminDashboard() {
     { label: 'Paals', value: stats.totalPaals, icon: 'scale' },
     { label: 'Total Users', value: stats.totalUsers, icon: 'users' },
     { label: 'Categories', value: stats.totalCategories, icon: 'layers' },
-    { label: 'Blog Posts', value: stats.totalBlogPosts, icon: 'pen' },
     { label: 'Visits Today', value: stats.visitsToday, icon: 'search' },
     { label: 'Quiz Today', value: stats.quizAttemptsToday, icon: 'help' },
   ];
@@ -84,23 +82,6 @@ export default function AdminDashboard() {
                   ))}
                 </tbody>
               </table>
-            )}
-          </div>
-
-          <div className="card admin-card mt-2">
-            <div className="spread">
-              <h2 style={{ fontSize: 18 }}>சமீபத்திய கட்டுரைகள்</h2>
-              <Link to="/admin/blog" className="btn btn-sm btn-ghost">நிர்வகி</Link>
-            </div>
-            {recentPosts.length === 0 ? (
-              <p className="muted">கட்டுரைகள் இல்லை</p>
-            ) : (
-              recentPosts.map((p) => (
-                <div key={p.id} className="kural-row" style={{ marginBottom: 6 }}>
-                  <span className="lines t" style={{ flex: 1 }}>{p.title}</span>
-                  <span className="muted" style={{ fontSize: 13 }}>{new Date(p.publishedAt).toLocaleDateString('ta-IN')}</span>
-                </div>
-              ))
             )}
           </div>
         </div>

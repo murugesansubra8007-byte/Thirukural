@@ -33,7 +33,6 @@ async function kvSet(doc) {
 function defaults() {
   return {
     users: [],
-    blogPosts: [],
     categories: [],
     quizAttempts: [],
     quizQuestions: [],

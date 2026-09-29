@@ -35,14 +35,12 @@ router.get('/dashboard', (req, res) => {
       totalUsers: d.users.length,
       totalVisits,
       visitsToday: d.visits[today] || 0,
-      totalBlogPosts: d.blogPosts.length,
       totalCategories: d.categories.length,
       quizAttemptsToday: todayQuiz.length,
       quizAccuracyToday: avgScore,
     },
     visits: last14,
     topSearches,
-    recentPosts: d.blogPosts.slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)).slice(0, 5),
   });
 });
 

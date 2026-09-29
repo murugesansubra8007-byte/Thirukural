@@ -7,3 +7,4 @@ dev-server.log
 *.log
 .DS_Store
 Thumbs.db
+server/data/uploads/

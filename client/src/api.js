@@ -30,6 +30,30 @@ export function getToken() {
   return localStorage.getItem(TOKEN_KEY);
 }
 
+export function uploadImage(file, name) {
+  const headers = {};
+  const token = getToken();
+  if (token) headers.Authorization = `Bearer ${token}`;
+  return fetch(`/api/uploads${name ? `?name=${encodeURIComponent(name)}` : ''}`, {
+    method: 'POST',
+    headers,
+    body: file,
+  }).then(async (res) => {
+    let payload = null;
+    try {
+      payload = await res.json();
+    } catch (e) {
+      /* non-json */
+    }
+    if (!res.ok) throw new Error((payload && payload.error) || `Upload failed (${res.status})`);
+    return payload;
+  });
+}
+
+export function listUploads() {
+  return api('/uploads');
+}
+
 export function getUser() {
   try {
     return JSON.parse(localStorage.getItem(USER_KEY) || 'null');

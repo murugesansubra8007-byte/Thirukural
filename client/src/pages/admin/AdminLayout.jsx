@@ -3,6 +3,7 @@ import { NavLink, Outlet, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Icon from '../../components/Icon';
 import Seo from '../../seo';
+import { assetUrl } from '../../cdn';
 
 const LINKS = [
   { to: '/admin/dashboard', icon: 'gauge', label: 'Dashboard' },
@@ -22,7 +23,7 @@ export default function AdminLayout() {
       <div className="site-header">
         <div className="header-inner">
           <Link to="/" className="brand">
-            <img src="/logo.png" className="brand-logo" alt="குறளகம்" />
+            <img src={assetUrl('/logo.png')} className="brand-logo" alt="குறளகம்" />
           </Link>
           <nav className="main-nav">
             <Link to="/" className="nav-link">முகப்பு</Link>

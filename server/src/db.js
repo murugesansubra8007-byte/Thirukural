@@ -38,6 +38,7 @@ function defaults() {
     quizQuestions: [],
     favorites: [],
     searchQueries: [],
+    uploads: [],
     visits: {},
     kuralOverrides: {},
     chapterOverrides: {},

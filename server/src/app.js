@@ -16,6 +16,9 @@ app.use('/api/categories', require('./routes/categories'));
 app.use('/api/quiz', require('./routes/quiz'));
 app.use('/api/stats', require('./routes/stats'));
 app.use('/api/admin', require('./routes/admin'));
+const { uploadsRouter, cdnRouter } = require('./routes/uploads');
+app.use('/api/uploads', uploadsRouter);
+app.use('/cdn', cdnRouter);
 
 app.get('/api/health', (req, res) => res.json({ ok: true, service: 'Kuralagam API' }));
 

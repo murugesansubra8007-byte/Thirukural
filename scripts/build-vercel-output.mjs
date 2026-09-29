@@ -68,6 +68,7 @@ writeFileSync(
       routes: [
         { handle: 'filesystem' },
         { src: '/api(?:/(.*))?', dest: '/api' },
+        { src: '/cdn(?:/(.*))?', dest: '/api' },
         { src: '/(.*)', dest: '/index.html' },
       ],
     },

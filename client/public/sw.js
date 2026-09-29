@@ -1,5 +1,5 @@
 /* குறளகம் — service worker. Build stamps CACHE_VERSION via mumifwho. */
-const CACHE_VERSION = 'mumigaak';
+const CACHE_VERSION = 'mumiypnf';
 const CACHE = 'kuralagam-' + CACHE_VERSION;
 const OFFLINE = '/offline.html';
 

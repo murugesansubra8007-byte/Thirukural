@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isFavorite, toggleFavorite } from '../api';
 import Icon from './Icon';
+import { assetUrl } from '../cdn';
 
 /* ---------- Favorites ---------- */
 export function FavoriteButton({ number, small = false }) {
@@ -80,7 +81,7 @@ export function Verse({ kural, large = false }) {
   if (!large) return <p className="verse">{lines}</p>;
   return (
     <div className="leaf-wrap">
-      <img className="leaf-img" src="/olaichuvadi.png" alt="" aria-hidden="true" draggable={false} loading="lazy" />
+      <img className="leaf-img" src={assetUrl('/olaichuvadi.png')} alt="" aria-hidden="true" draggable={false} loading="lazy" />
       <p className="verse verse-large leaf-verse">{lines}</p>
     </div>
   );

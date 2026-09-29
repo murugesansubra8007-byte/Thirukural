@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Seo from '../../seo';
+import { assetUrl } from '../../cdn';
 
 export default function AdminLogin() {
   const { user, isAdmin, login } = useAuth();
@@ -32,7 +33,7 @@ export default function AdminLogin() {
       <Seo title="நிர்வாக உள்நுழைவு | குறளகம்" description="" canonical="https://thirukural.heymovox.com/" noIndex />
       <div className="login-card">
         <div style={{ textAlign: 'center', marginBottom: 8, display: 'flex', justifyContent: 'center' }}>
-          <img src="/logo.png" className="brand-logo" style={{ width: 72, height: 72 }} alt="குறளகம்" />
+          <img src={assetUrl('/logo.png')} className="brand-logo" style={{ width: 72, height: 72 }} alt="குறளகம்" />
         </div>
         <h1 style={{ fontSize: 22, textAlign: 'center' }}>நிர்வாக உள்நுழைவு</h1>
         <p className="muted center" style={{ fontSize: 14, marginBottom: 20 }}>

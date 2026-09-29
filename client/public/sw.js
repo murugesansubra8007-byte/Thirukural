@@ -1,5 +1,5 @@
 /* குறளகம் — service worker. Build stamps CACHE_VERSION via mumifwho. */
-const CACHE_VERSION = 'mumiypnf';
+const CACHE_VERSION = 'mumj8vp4';
 const CACHE = 'kuralagam-' + CACHE_VERSION;
 const OFFLINE = '/offline.html';
 
@@ -8,11 +8,11 @@ const PRECACHE_URLS = [
   '/index.html',
   OFFLINE,
   '/manifest.webmanifest',
-  '/logo.png',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/icon-512-maskable.png',
-  '/icons/apple-touch-icon.png',
+  '/resources/images/logo.png',
+  '/resources/images/icons/icon-192.png',
+  '/resources/images/icons/icon-512.png',
+  '/resources/images/icons/icon-512-maskable.png',
+  '/resources/images/icons/apple-touch-icon.png',
 ];
 
 self.addEventListener('install', (event) => {

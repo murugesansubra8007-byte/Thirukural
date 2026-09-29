@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getFavorites } from '../api';
 import Icon from './Icon';
 import TopBar from './TopBar';
-import { assetUrl } from '../cdn';
+import { img } from '../assets';
 
 /* ---------- Layout ---------- */
 export function Layout({ children }) {
@@ -87,7 +87,7 @@ export function Header() {
     <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
       <div className="header-inner">
         <Link to="/" className="brand" onClick={close} aria-label="குறளகம் முகப்பு">
-          <img src={assetUrl('/logo.png')} className="brand-logo" alt="குறளகம்" />
+          <img src={img('logo.png')} className="brand-logo" alt="குறளகம்" />
         </Link>
 
         <nav className={`main-nav${open ? ' open' : ''}`}>
@@ -263,7 +263,7 @@ export function PaalBadge({ name }) {
 }
 
 export function KolamStrip() {
-  return <img src={assetUrl('/kolamstrip.png')} alt="" width="10765" height="393" className="kolam-strip" decoding="async" />;
+  return <img src={img('kolamstrip.png')} alt="" width="10765" height="393" className="kolam-strip" decoding="async" />;
 }
 
 export function ScrollToTop() {

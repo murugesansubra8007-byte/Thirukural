@@ -1094,7 +1094,10 @@ a.card:hover {
 }
 
 .kural-slab {
-  background: linear-gradient(180deg, #fbf6e9, #f6eeda);
+  background:
+    linear-gradient(180deg, rgba(251, 246, 233, 0.28), rgba(246, 238, 218, 0.28)),
+    url('/olaichuvadi.png') center / cover no-repeat,
+    #f6eeda;
   border: 1px solid var(--line-strong);
   border-left: 4px solid var(--gold);
   border-radius: var(--radius);
@@ -1242,7 +1245,10 @@ a.card:hover {
 }
 
 .today-card {
-  background: linear-gradient(180deg, #fcf7ec, #f5ecda);
+  background:
+    linear-gradient(180deg, rgba(252, 247, 236, 0.3), rgba(245, 236, 218, 0.3)),
+    url('/olaichuvadi.png') center / cover no-repeat,
+    #f5ecda;
   border: 1px solid var(--line-strong);
   border-top: 6px solid var(--gold);
   border-radius: 20px;
@@ -1294,7 +1300,14 @@ a.card:hover {
 }
 
 .today-kural .verse {
+  font-weight: 700;
+  letter-spacing: 0.4px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.kural-slab .verse-large {
+  font-weight: 800;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .kural-slab .verse-large .l1,

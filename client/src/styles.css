@@ -1353,7 +1353,7 @@ a.card:hover {
 
 @media (min-width: 861px) {
   .leaf-wrap .leaf-verse {
-    padding-top: clamp(20px, 2.6vw, 34px);
+    padding-top: clamp(30px, 4vw, 48px);
   }
 }
 

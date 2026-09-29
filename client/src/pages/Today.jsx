@@ -8,6 +8,8 @@ import Seo, { BASE_URL, SITE_NAME, breadcrumbJsonLd } from '../seo';
 
 export default function Today() {
   const number = todayKuralNumber();
+  const [kural, setKural] = useState(null);
+  const [error, setError] = useState(null);
   const kuralUrl = `${BASE_URL}/kural/${kural ? kural.number : number}`;
   const shareText = `குறள் ${kural ? kural.number : number} — ${kural ? `${kural.line1} ${kural.line2}` : ''}\n${kuralUrl}`;
   const shareLinks = [
@@ -44,15 +46,21 @@ export default function Today() {
       <section className="section">
         <div className="container">
           <div className="today-wrap">
-            <div className="today-card">
-              <div className="today-date">இன்றைய குறள் · {kural.number}/1330</div>
-              <div className="today-kural">
-                <Verse kural={kural} large />
+            <div className="card fam-card today-star">
+              <div className="fam-head">
+                <span className="tag">இன்றைய குறள்</span>
+                <span className="fam-num">{kural.number}</span>
               </div>
-              <p className="muted" style={{ fontSize: 14 }}>
-                <Link to={`/chapters/${kural.chapterNumber}`}>{kural.chapterName}</Link>
+              <Verse kural={kural} large />
+              <p className="muted fam-meta" style={{ marginTop: 12 }}>
+                <Link to={`/chapters/${kural.chapterNumber}`}>
+                  {kural.chapterNumber}. {kural.chapterName}
+                </Link>
                 <span> · </span>
                 {kural.paalName}
+              </p>
+              <p className="meaning-block fam-meaning" style={{ maxWidth: 'none' }}>
+                {kural.simpleMeaning || kural.meaning}
               </p>
 
               <div className="today-actions">
@@ -74,11 +82,7 @@ export default function Today() {
             </div>
 
             <aside>
-              <div className="kural-slab" style={{ borderLeftColor: 'var(--terracotta)' }}>
-                <h3>எளிய பொருள்</h3>
-                <p className="meaning-block" style={{ fontSize: 15 }}>{kural.simpleMeaning || kural.meaning}</p>
-              </div>
-              <div className="card mt-2" style={{ padding: 18 }}>
+              <div className="card" style={{ padding: 18 }}>
                 <h3 style={{ fontSize: 17 }}>குறள் விவரங்கள்</h3>
                 <p className="muted" style={{ fontSize: 14, marginBottom: 6 }}>
                   <b>அதிகாரம்:</b>{' '}

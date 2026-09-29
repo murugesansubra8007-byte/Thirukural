@@ -17,4 +17,10 @@ if (GA_ID) {
   window.gtag('config', GA_ID);
 }
 
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
 createRoot(document.getElementById('root')).render(<App />);

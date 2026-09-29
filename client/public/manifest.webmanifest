@@ -1,0 +1,20 @@
+{
+  "id": "/",
+  "name": "குறளகம் — திருக்குறள் 1330",
+  "short_name": "குறளகம்",
+  "description": "திருவள்ளுவரின் 1330 திருக்குறள்களையும் தமிழ் உரை, பொருள் மற்றும் விளக்கத்துடன் படியுங்கள். அறத்துப்பால், பொருட்பால், காமத்துப்பால் — முழு திருக்குறளும் ஒரே இடத்தில்.",
+  "lang": "ta",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#2f2518",
+  "theme_color": "#2f2518",
+  "categories": ["books", "education", "culture"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

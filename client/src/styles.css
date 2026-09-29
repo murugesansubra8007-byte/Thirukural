@@ -128,18 +128,23 @@ img {
 
 /* ---------- Ornamental kolam strip ---------- */
 .kolam-strip {
-  height: 6px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--gold) 0 14px,
-    transparent 14px 18px,
-    var(--terracotta) 18px 30px,
-    transparent 30px 34px,
-    var(--gold) 34px 48px,
-    transparent 48px 60px
-  );
-  opacity: 0.9;
-  border-top: 1px solid rgba(51, 39, 26, 0.25);
+  display: block;
+  width: 100%;
+  height: 44px;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 768px) {
+  .kolam-strip {
+    height: 56px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kolam-strip {
+    height: 64px;
+  }
 }
 
 /* ============ Topbar ============ */
@@ -1048,6 +1053,51 @@ a.card:hover {
   }
 }
 
+/* ---------- Famous kural cards ---------- */
+.fam-card {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  border-top: 3px solid var(--line-strong);
+}
+
+.fam-card .fam-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.fam-num {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--gold-deep);
+  background: rgba(221, 186, 98, 0.14);
+  border: 1px solid rgba(221, 186, 98, 0.45);
+  border-radius: 12px;
+  padding: 7px 13px;
+  min-width: 58px;
+  text-align: center;
+}
+
+.fam-card .verse {
+  font-size: 17.5px;
+  line-height: 1.8;
+}
+
+.fam-meta {
+  font-size: 13.5px;
+  margin-top: 10px;
+}
+
+.fam-meaning {
+  margin-top: 10px;
+  font-size: 14.5px;
+  flex: 1;
+}
+
 /* ---------- Paal cards ---------- */
 .paal-card {
   padding: 26px 24px;
@@ -1530,51 +1580,44 @@ a.card:hover {
   }
 }
 
-.today-card {
-  background: none;
-  border: 1px solid var(--line-strong);
-  border-top: 6px solid var(--gold);
-  border-radius: 20px;
-  padding: 34px 30px;
-  box-shadow: none;
-  text-align: center;
+.today-star .fam-meaning {
+  max-width: none;
 }
 
-.today-date {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 14px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--terracotta);
-  font-weight: 700;
+.today-star .leaf-wrap {
+  height: clamp(150px, 17vw, 200px);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 4px;
 }
 
-.today-date::before,
-.today-date::after {
-  content: '';
-  width: 34px;
-  height: 1px;
-  flex: none;
+.today-star .leaf-verse {
+  font-size: clamp(13.5px, 1.8vw, 18px);
+  line-height: 1.7;
+  letter-spacing: 0.4px;
+  padding-top: clamp(66px, 9vw, 100px);
 }
 
-.today-date::before {
-  background: linear-gradient(90deg, transparent, var(--terracotta));
+.today-star .leaf-verse .l1,
+.today-star .leaf-verse .l2 {
+  justify-content: center;
 }
 
-.today-date::after {
-  background: linear-gradient(90deg, var(--terracotta), transparent);
+.today-star .today-actions {
+  justify-content: flex-start;
+  margin: 16px 0 0;
 }
 
-.today-kural {
-  margin: 28px 0;
-  position: relative;
-  z-index: 0;
+.today-star .share-row {
+  justify-content: flex-start;
+  margin-top: 14px;
 }
 
-.today-kural::before {
-  display: none;
+@media (max-width: 600px) {
+  .today-star .today-actions,
+  .today-star .share-row {
+    justify-content: center;
+  }
 }
 
 .leaf-wrap {
@@ -1635,10 +1678,6 @@ a.card:hover {
   .kural-slab .leaf-verse {
     font-size: 13.5px;
   }
-
-  .today-kural .leaf-verse {
-    font-size: 15.5px;
-  }
 }
 
 @media (min-width: 861px) {
@@ -1655,18 +1694,6 @@ a.card:hover {
   gap: clamp(6px, 1.6vw, 12px);
 }
 
-.today-kural .verse .l1,
-.today-kural .verse .l2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(10px, 3vw, 26px);
-}
-
-.today-kural .verse .l1::before,
-.today-kural .verse .l1::after,
-.today-kural .verse .l2::before,
-.today-kural .verse .l2::after,
 .kural-slab .verse-large .l1::before,
 .kural-slab .verse-large .l1::after,
 .kural-slab .verse-large .l2::before,
@@ -1677,15 +1704,11 @@ a.card:hover {
   flex: none;
 }
 
-.today-kural .verse .l1::before,
-.today-kural .verse .l2::before,
 .kural-slab .verse-large .l1::before,
 .kural-slab .verse-large .l2::before {
   background: linear-gradient(90deg, transparent, var(--gold));
 }
 
-.today-kural .verse .l1::after,
-.today-kural .verse .l2::after,
 .kural-slab .verse-large .l1::after,
 .kural-slab .verse-large .l2::after {
   background: linear-gradient(90deg, var(--gold), transparent);
@@ -2050,13 +2073,35 @@ a.kural-row:hover {
   font-size: 14.5px;
 }
 
+.footer-ornament {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 26px 22px 0;
+}
+
+.fo-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(221, 186, 98, 0.5), transparent);
+}
+
+.fo-mark {
+  color: var(--gold);
+  font-size: 15px;
+  line-height: 1;
+}
+
 .footer-inner {
   max-width: 1140px;
   margin: 0 auto;
-  padding: 52px 22px 30px;
+  padding: 30px 22px 42px;
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
   gap: 34px;
+  position: relative;
 }
 
 @media (max-width: 860px) {
@@ -2071,25 +2116,101 @@ a.kural-row:hover {
   }
 }
 
+.footer-brand-col {
+  position: relative;
+}
+
+.footer-brand-col::after {
+  content: '1330';
+  position: absolute;
+  right: -6px;
+  bottom: -16px;
+  font-family: var(--font-serif);
+  font-size: 112px;
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(221, 186, 98, 0.07);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 520px) {
+  .footer-brand-col::after {
+    font-size: 72px;
+    right: 0;
+    bottom: -8px;
+  }
+}
+
 .footer-brand {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 26px;
   color: #f2e7cb;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.footer-brand:hover {
+  color: #fff7e3;
+}
+
+.footer-tagline {
+  color: #ab9a78;
+  font-size: 13.5px;
+  line-height: 1.95;
+  margin: 12px 0 18px;
+  max-width: 320px;
+}
+
+.footer-quote {
+  display: block;
+  padding: 13px 15px;
+  border: 1px solid rgba(221, 186, 98, 0.25);
+  border-left: 3px solid var(--terracotta);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.025);
+  color: #dfd2b2;
+  font-family: var(--font-serif);
+  font-size: 14.5px;
+  line-height: 1.7;
+  text-decoration: none;
+  max-width: 340px;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.footer-quote:hover {
+  background: rgba(221, 186, 98, 0.08);
+  border-color: rgba(221, 186, 98, 0.55);
+  color: #fff3d6;
+}
+
+.fq-cta {
+  display: block;
+  margin-top: 5px;
+  color: var(--gold);
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  letter-spacing: 1.2px;
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
 }
 
 .footer-col h5 {
   color: var(--gold);
-  font-size: 13px;
-  letter-spacing: 2.5px;
+  font-size: 12px;
+  letter-spacing: 2.2px;
   text-transform: uppercase;
-  margin: 0 0 14px;
+  margin: 0 0 15px;
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-col h5 .icon {
+  color: var(--terracotta);
 }
 
 .footer-col ul {
@@ -2098,28 +2219,45 @@ a.kural-row:hover {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 10px;
 }
 
 .footer-col a {
   color: #cdbb9b;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+
+.footer-col a::before {
+  content: '›';
+  color: rgba(221, 186, 98, 0.55);
+  margin-right: 7px;
+  transition: transform 0.15s ease, color 0.15s ease;
 }
 
 .footer-col a:hover {
-  color: #f2e7cb;
+  color: #f6eccf;
   text-decoration: none;
 }
 
+.footer-col a:hover::before {
+  transform: translateX(3px);
+  color: var(--gold);
+}
+
 .footer-bottom {
-  border-top: 1px solid rgba(221, 186, 98, 0.18);
-  padding: 18px 22px;
-  text-align: center;
-  font-size: 13px;
+  max-width: 1140px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(221, 186, 98, 0.16);
+  padding: 16px 22px;
+  font-size: 12.5px;
   color: #8f8061;
   display: flex;
-  gap: 8px;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .footer-bottom a {
@@ -2140,6 +2278,13 @@ a.kural-row:hover {
 
 .footer-credit .icon {
   color: var(--terracotta);
+}
+
+@media (max-width: 640px) {
+  .footer-bottom {
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 /* ============ Utility ============ */

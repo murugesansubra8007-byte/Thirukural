@@ -128,26 +128,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <section className="section">
-        <div className="container" style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(280px,1fr))' }}>
-          <Link to="/learn" className="card info-card">
-            <div className="num">1</div>
-            <h3>திருக்குறள் என்றால் என்ன?</h3>
-            <p>தமிழர்களின் உலகப்புகழ் பெற்ற காவியம் — வாழ்வியலை முழுமையாக வகுக்கும் நூல்.</p>
-          </Link>
-          <Link to="/about-valluvar" className="card info-card">
-            <div className="num">திரு</div>
-            <h3>திருவள்ளுவர்</h3>
-            <p>மூன்று ஆயிரம் ஆண்டுகளாக வாழ்ந்து கொண்டிருக்கும் நூலாசிரியர்.</p>
-          </Link>
-          <Link to="/quiz" className="card info-card">
-            <div className="num">?</div>
-            <h3>நாள்தோறும் வினாடி வினா</h3>
-            <p>உங்கள் திருக்குறள் அறிவை சோதித்துப் பாருங்கள் — தினமும் புதிய கேள்விகள்.</p>
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }

@@ -156,27 +156,39 @@ export function Header() {
 export function Footer() {
   return (
     <footer className="site-footer">
+      <div className="footer-ornament" role="presentation">
+        <span className="fo-line" />
+        <span className="fo-mark">❖</span>
+        <span className="fo-line" />
+      </div>
+
       <div className="footer-inner">
-        <div>
-          <div className="footer-brand">குறளகம்</div>
-          <p>
+        <div className="footer-brand-col">
+          <Link to="/" className="footer-brand">குறளகம்</Link>
+          <p className="footer-tagline">
             உலகின் 1330 குறள்களின் டிஜிட்டல் இல்லம். வாழ்க்கையின் ஒவ்வொரு நிலையிலும்
             வழிகாட்டும் வள்ளுவத்தின் சொற்கள் — இலவசமாக.
           </p>
+          <Link to="/kural/1" className="footer-quote">
+            <span className="fq-text">“அகர முதல எழுத்தெல்லாம் ஆதி…”</span>
+            <span className="fq-cta">முழு விளக்கத்துடன் படிக்க →</span>
+          </Link>
         </div>
+
         <div className="footer-col">
-          <h5>உலாவு</h5>
+          <h5><Icon name="book-open" size={13} /> உலாவு</h5>
           <ul>
             <li><Link to="/">முகப்பு</Link></li>
             <li><Link to="/explore">குறள்களைத் தேடு</Link></li>
             <li><Link to="/chapters">133 அதிகாரங்கள்</Link></li>
-            <li><Link to="/categories">வாழ்க்கை வகைகள்</Link></li>
             <li><Link to="/today">தினம் ஒரு குறள்</Link></li>
+            <li><Link to="/categories">வாழ்க்கை வகைகள்</Link></li>
             <li><Link to="/quiz">வினாடி வினா</Link></li>
           </ul>
         </div>
+
         <div className="footer-col">
-          <h5>கற்க</h5>
+          <h5><Icon name="grad" size={13} /> கற்க</h5>
           <ul>
             <li><Link to="/learn">திருக்குறள் அறிமுகம்</Link></li>
             <li><Link to="/learn/structure-overview">133 + 1330 + 3 அமைப்பு</Link></li>
@@ -184,29 +196,22 @@ export function Footer() {
             <li><Link to="/methodology">உரைகளின் மூலங்கள்</Link></li>
           </ul>
         </div>
+
         <div className="footer-col">
-          <h5>இணையம்</h5>
-          <ul>
-            <li><Link to="/favorites">என் குறள்கள்</Link></li>
-            <li><Link to="/kural/1330">கடைசி குறள்</Link></li>
-            <li><Link to="/kural/1">முதல் குறள்</Link></li>
-          </ul>
-        </div>
-        <div className="footer-col">
-          <h5>தளம்</h5>
+          <h5><Icon name="layers" size={13} /> தளம்</h5>
           <ul>
             <li><Link to="/about">குறளகம் பற்றி</Link></li>
             <li><Link to="/contact">தொடர்புகொள்ள</Link></li>
-            <li><Link to="/paal/ara">அறத்துப்பால்</Link></li>
-            <li><Link to="/paal/porul">பொருட்பால்</Link></li>
-            <li><Link to="/paal/kamam">காமத்துப்பால்</Link></li>
+            <li><Link to="/favorites">என் குறள்கள்</Link></li>
+            <li><Link to="/kural/1330">கடைசி குறள்</Link></li>
           </ul>
         </div>
       </div>
+
       <div className="footer-bottom">
-        குறளகம் © {new Date().getFullYear()} — அன்புடன் அனைவருக்கும்
+        <span>குறளகம் © {new Date().getFullYear()} — அன்புடன் அனைவருக்கும்</span>
         <span className="footer-credit">
-          We Crafted with <Icon name="heart-fill" size={13} />{' '}
+          Crafted with <Icon name="heart-fill" size={12} /> by{' '}
           <a href="https://www.heymovox.com" target="_blank" rel="noreferrer" className="movo-link">
             MovoX team
           </a>
@@ -257,7 +262,7 @@ export function PaalBadge({ name }) {
 }
 
 export function KolamStrip() {
-  return <div className="kolam-strip" role="presentation" />;
+  return <img src="/kolamstrip.png" alt="" width="10765" height="393" className="kolam-strip" decoding="async" />;
 }
 
 export function ScrollToTop() {

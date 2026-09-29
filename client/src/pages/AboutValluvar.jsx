@@ -1,10 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PageHead } from '../components';
+import Seo, { BASE_URL } from '../seo';
 
 export default function AboutValluvar() {
   return (
     <div>
+      <Seo
+        title="திருவள்ளுவர் | திருக்குறள் ஆசிரியர் வரலாறு"
+        description="திருவள்ளுவர் — திருக்குறள் இயற்றிய தமிழ் முனிவர். அவரது காலம், முப்பால் அமைப்பு, உலகளாவிய மொழிபெயர்ப்புகள் மற்றும் தாக்கம் பற்றி அறிக."
+        canonical={`${BASE_URL}/about-valluvar`}
+      />
       <PageHead title="திருவள்ளுவர்" note="தமிழின் போற்றுதலுக்குரிய முனிவரும், திருக்குறளின் ஆசிரியரும்" />
 
       <section className="section">

@@ -4,6 +4,9 @@ import { api, todayKuralNumber } from '../api';
 import { Loading, SectionHead, KolamStrip } from '../components';
 import { KuralRow, ShareButton, PaalCard, Verse } from '../components/Kural';
 import Icon from '../components/Icon';
+import Seo from '../seo';
+
+const PAAL_KEYS = { 1: 'ara', 2: 'porul', 3: 'kamam' };
 
 export default function Home() {
   const [chaptersData, setChaptersData] = useState(null);
@@ -28,8 +31,26 @@ export default function Home() {
 
   return (
     <div>
+      <Seo
+        title="திருக்குறள் 1330 குறள்கள் | பொருள், விளக்கம் – குறளகம்"
+        description="திருவள்ளுவரின் 1330 திருக்குறள்களையும் தமிழ் உரை, பொருள் மற்றும் விளக்கத்துடன் படிக்கலாம். அறத்துப்பால், பொருட்பால், காமத்துப்பால் என முழு திருக்குறள்களையும் ஒரே இடத்தில் காணுங்கள்."
+        canonical="https://thirukural.heymovox.com/"
+      />
       <Hero />
       <KolamStrip />
+
+      <section className="section section-tight">
+        <div className="container" style={{ maxWidth: 880, textAlign: 'center' }}>
+          <p className="muted" style={{ fontSize: 15.5, lineHeight: 1.8 }}>
+            திருவள்ளுவரின்{" "}
+            <b>திருக்குறள் 1330 குறள்கள்</b>, ஒவ்வொன்றின் எளிய பொருள், விளக்கம், ஆங்கில
+            மொழிபெயர்ப்பு மற்றும் மணக்குடவர், பரிமேலழகர், மு. வரதராசனார், கலைஞர் உள்ளிட்ட
+            தமிழ் உரைகளுடன் இலவசமாக. மூன்று பால்கள், 133 அதிகாரங்கள் —{" "}
+            <Link to="/learn">திருக்குறள் பற்றி அறிக</Link> ·{" "}
+            <Link to="/about-valluvar">திருவள்ளுவர் வரலாறு</Link>
+          </p>
+        </div>
+      </section>
 
       <section className="section">
         <div className="container">
@@ -47,7 +68,7 @@ export default function Home() {
                   paal={p}
                   icon={icons[p.number]}
                   note={p.number === 1 ? 'அறம்' : p.number === 2 ? 'பொருள்' : 'காமம்'}
-                  to={`/chapters?paal=${p.number}`}
+                  to={`/paal/${PAAL_KEYS[p.number]}`}
                 />
               );
             })}

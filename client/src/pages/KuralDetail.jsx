@@ -4,6 +4,7 @@ import { api } from '../api';
 import { Loading, EmptyState, PaalBadge } from '../components';
 import { Verse, FavoriteButton, ShareButton, Tabs, UraiList } from '../components/Kural';
 import Icon from '../components/Icon';
+import Seo, { BASE_URL, SITE_NAME, PAAL_ROUTE, kuralTitle, kuralDescription, breadcrumbJsonLd } from '../seo';
 
 export default function KuralDetail() {
   const { number } = useParams();
@@ -34,6 +35,22 @@ export default function KuralDetail() {
 
   return (
     <div>
+      <Seo
+        title={kuralTitle(kural)}
+        description={kuralDescription(kural)}
+        canonical={`${BASE_URL}/kural/${kural.number}`}
+        jsonLd={[
+          breadcrumbJsonLd([
+            { name: SITE_NAME, url: `${BASE_URL}/` },
+            { name: 'அதிகாரங்கள்', url: `${BASE_URL}/chapters` },
+            {
+              name: `அதிகாரம் ${kural.chapterNumber} — ${kural.chapterName}`,
+              url: `${BASE_URL}/chapters/${kural.chapterNumber}`,
+            },
+            { name: `குறள் ${kural.number}`, url: `${BASE_URL}/kural/${kural.number}` },
+          ]),
+        ]}
+      />
       <div className="page-head">
         <div className="breadcrumbs" style={{ justifyContent: 'center' }}>
           <Link to="/explore">குறள்கள்</Link>
@@ -48,7 +65,9 @@ export default function KuralDetail() {
             {kural.chapterName}
           </Link>
           <span> · </span>
-          {kural.paalName}
+          <Link to={`/paal/${PAAL_ROUTE[kural.paalName] || 'porul'}`} style={{ color: '#e9dcb8' }}>
+            {kural.paalName}
+          </Link>
         </p>
       </div>
 

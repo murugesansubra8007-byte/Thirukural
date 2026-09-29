@@ -179,8 +179,9 @@ export function Footer() {
           <h5>கற்க</h5>
           <ul>
             <li><Link to="/learn">திருக்குறள் அறிமுகம்</Link></li>
-            <li><Link to="/learn">133 + 1330 + 3 அமைப்பு</Link></li>
+            <li><Link to="/learn/structure-overview">133 + 1330 + 3 அமைப்பு</Link></li>
             <li><Link to="/about-valluvar">திருவள்ளுவர்</Link></li>
+            <li><Link to="/methodology">உரைகளின் மூலங்கள்</Link></li>
           </ul>
         </div>
         <div className="footer-col">
@@ -189,6 +190,16 @@ export function Footer() {
             <li><Link to="/favorites">என் குறள்கள்</Link></li>
             <li><Link to="/kural/1330">கடைசி குறள்</Link></li>
             <li><Link to="/kural/1">முதல் குறள்</Link></li>
+          </ul>
+        </div>
+        <div className="footer-col">
+          <h5>தளம்</h5>
+          <ul>
+            <li><Link to="/about">குறளகம் பற்றி</Link></li>
+            <li><Link to="/contact">தொடர்புகொள்ள</Link></li>
+            <li><Link to="/paal/ara">அறத்துப்பால்</Link></li>
+            <li><Link to="/paal/porul">பொருட்பால்</Link></li>
+            <li><Link to="/paal/kamam">காமத்துப்பால்</Link></li>
           </ul>
         </div>
       </div>

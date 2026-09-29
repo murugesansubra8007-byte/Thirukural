@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import Seo from '../../seo';
 
 export default function AdminLogin() {
   const { user, isAdmin, login } = useAuth();
@@ -28,6 +29,7 @@ export default function AdminLogin() {
 
   return (
     <div className="login-wrap">
+      <Seo title="நிர்வாக உள்நுழைவு | குறளகம்" description="" canonical="https://thirukural.heymovox.com/" noIndex />
       <div className="login-card">
         <div style={{ textAlign: 'center', marginBottom: 8, display: 'flex', justifyContent: 'center' }}>
           <img src="/logo.png" className="brand-logo" style={{ width: 72, height: 72 }} alt="குறளகம்" />

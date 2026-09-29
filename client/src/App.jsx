@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, RequireAdmin } from './context/AuthContext';
 import { Layout, KolamStrip, ScrollToTop, EmptyState } from './components';
+import Seo from './seo';
 
 import Home from './pages/Home';
 import Chapters from './pages/Chapters';
@@ -15,6 +16,10 @@ import LearnDeep from './pages/LearnDeep';
 import AboutValluvar from './pages/AboutValluvar';
 import Quiz from './pages/Quiz';
 import Favorites from './pages/Favorites';
+import PaalDetail from './pages/PaalDetail';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Methodology from './pages/Methodology';
 
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -62,6 +67,10 @@ export default function App() {
             <Route path="/about-valluvar" element={<AboutValluvar />} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/favorites" element={<Favorites />} />
+            <Route path="/paal/:key" element={<PaalDetail />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/methodology" element={<Methodology />} />
             <Route path="*" element={<NotFound />} />
           </Route>
 
@@ -85,6 +94,7 @@ export default function App() {
 function NotFound() {
   return (
     <div className="container section">
+      <Seo title="பக்கம் கிடைக்கவில்லை | குறளகம்" description="" canonical="https://thirukural.heymovox.com/" noIndex />
       <EmptyState icon="flower" title="இந்தப் பக்கம் கிடைக்கவில்லை" note="404 — முகப்பிற்குத் திரும்புக.">
         <a href="/" className="btn btn-primary">முகப்பு →</a>
       </EmptyState>

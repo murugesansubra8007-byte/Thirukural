@@ -4,6 +4,7 @@ import { api, getFavorites } from '../api';
 import { Loading, PageHead, EmptyState } from '../components';
 import { FavoriteButton, ShareButton, KuralRow } from '../components/Kural';
 import Icon from '../components/Icon';
+import Seo, { BASE_URL } from '../seo';
 
 function readVisited() {
   try {
@@ -46,6 +47,12 @@ export default function Favorites() {
 
   return (
     <div>
+      <Seo
+        title="என் குறள்கள் | குறளகம்"
+        description="விருப்பமான திருக்குறள்களும், சமீபத்தில் பார்த்தவையும்"
+        canonical={`${BASE_URL}/favorites`}
+        noIndex
+      />
       <PageHead title="என் குறள்கள்" note="விருப்பமான குறள்களும், சமீபத்தில் பார்த்தவையும்" />
 
       <section className="section">

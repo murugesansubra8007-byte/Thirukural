@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, Outlet, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Icon from '../../components/Icon';
+import Seo from '../../seo';
 
 const LINKS = [
   { to: '/admin/dashboard', icon: 'gauge', label: 'Dashboard' },
@@ -17,6 +18,7 @@ export default function AdminLayout() {
   const { user, logout } = useAuth();
   return (
     <div style={{ background: 'var(--paper)' }}>
+      <Seo title="நிர்வாகம் | குறளகம்" description="" canonical="https://thirukural.heymovox.com/" noIndex />
       <div className="site-header">
         <div className="header-inner">
           <Link to="/" className="brand">

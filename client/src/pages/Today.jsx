@@ -4,11 +4,17 @@ import { api, formatDateKeys, todayKuralNumber } from '../api';
 import { Loading, PaalBadge } from '../components';
 import { Verse, FavoriteButton, ShareButton, Tabs, UraiList } from '../components/Kural';
 import Icon from '../components/Icon';
+import Seo, { BASE_URL, SITE_NAME, breadcrumbJsonLd } from '../seo';
 
 export default function Today() {
-  const [kural, setKural] = useState(null);
-  const [error, setError] = useState(null);
   const number = todayKuralNumber();
+  const kuralUrl = `${BASE_URL}/kural/${kural ? kural.number : number}`;
+  const shareText = `குறள் ${kural ? kural.number : number} — ${kural ? `${kural.line1} ${kural.line2}` : ''}\n${kuralUrl}`;
+  const shareLinks = [
+    { name: 'WhatsApp', href: `https://wa.me/?text=${encodeURIComponent(shareText)}` },
+    { name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(kuralUrl)}` },
+    { name: 'Instagram', href: `https://www.instagram.com/?url=${encodeURIComponent(shareText)}` },
+  ];
 
   useEffect(() => {
     api(`/kurals/${number}`).then((d) => setKural(d.kural)).catch((e) => setError(e.message));
@@ -17,15 +23,19 @@ export default function Today() {
   if (error) return <div className="container"><p className="notice">{error}</p></div>;
   if (!kural) return <Loading />;
 
-  const shareText = `குறள் ${kural.number} — ${kural.line1} ${kural.line2}\nhttps://kuralagam.in/kural/${kural.number}`;
-  const shareLinks = [
-    { name: 'WhatsApp', href: `https://wa.me/?text=${encodeURIComponent(shareText)}` },
-    { name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://kuralagam.in/kural/${kural.number}`)}` },
-    { name: 'Instagram', href: `https://www.instagram.com/?url=${encodeURIComponent(shareText)}` },
-  ];
-
   return (
     <div>
+      <Seo
+        title={`தினம் ஒரு குறள் — குறள் ${kural.number} | ${kural.chapterName}`}
+        description={`தினம்தோறும் ஒரு திருக்குறள்: குறள் ${kural.number} “${kural.line1} ${kural.line2}”. எளிய பொருளும் விளக்கமும் உரைகளுடன் — குறளகம்.`}
+        canonical={`${BASE_URL}/today`}
+        jsonLd={[
+          breadcrumbJsonLd([
+            { name: SITE_NAME, url: `${BASE_URL}/` },
+            { name: 'தினம் ஒரு குறள்', url: `${BASE_URL}/today` },
+          ]),
+        ]}
+      />
       <div className="page-head">
         <h1>தினம் ஒரு குறள்</h1>
         <p>இன்றைய குறள் — {formatDateKeys()}</p>

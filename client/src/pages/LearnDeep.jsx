@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
 import { Loading, PageHead, PaalBadge } from '../components';
 import Icon from '../components/Icon';
+import Seo, { BASE_URL } from '../seo';
 
 export default function LearnDeep() {
   const { section } = useParams();
@@ -37,6 +38,11 @@ export default function LearnDeep() {
 
   return (
     <div>
+      <Seo
+        title={`${m.title} | திருக்குறள்`}
+        description={`${m.title} — ${m.note}. திருவள்ளுவரின் 1330 குறள்களின் கட்டமைப்பையும் அமைப்பையும் எளிய தமிழில் அறியுங்கள்.`}
+        canonical={`${BASE_URL}/learn/${section}`}
+      />
       <PageHead title={m.title} note={m.note} />
 
       <section className="section">
@@ -67,9 +73,7 @@ export default function LearnDeep() {
               </p>
               <div className="alert-ok" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Icon name="bulb" size={17} />
-                <span>வார்த்தை வீழ்ச்சியிலும் ஓசை — தினம் ஒரு குறள் பக்கத்தில் </span>
-                <Icon name="volume" size={16} />
-                <span>பொத்தானை அழுத்திக் கேளுங்கள்!</span>
+                <span>ஓசை நோக்கி எழுதப்பட்ட இலக்கியம் என்பதால் — அன்றாடம் ஒரு குறளை வாசித்துப் பழகுங்கள்.</span>
               </div>
             </>
           ) : (

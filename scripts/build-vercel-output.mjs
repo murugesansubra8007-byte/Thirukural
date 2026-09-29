@@ -18,7 +18,16 @@ if (!existsSync(clientDist)) {
   process.exit(1);
 }
 
+try {
+  execSync('node scripts/build-sitemap.mjs', { cwd: root, stdio: 'inherit' });
+} catch (e) {
+  console.error('[build-vercel-output] sitemap build failed:', e.message);
+}
+
 cpSync(clientDist, staticDir, { recursive: true });
+if (existsSync(join(root, 'client', 'public', 'sitemap.xml'))) {
+  copyFileSync(join(root, 'client', 'public', 'sitemap.xml'), join(staticDir, 'sitemap.xml'));
+}
 
 const esbuildBin =
   (existsSync(join(root, 'client', 'node_modules', '.bin', process.platform === 'win32' ? 'esbuild.cmd' : 'esbuild')) &&

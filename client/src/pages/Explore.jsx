@@ -4,6 +4,7 @@ import { api } from '../api';
 import { Loading, PageHead, EmptyState } from '../components';
 import { KuralRow } from '../components/Kural';
 import Icon from '../components/Icon';
+import Seo, { BASE_URL } from '../seo';
 
 const DEBOUNCE = 350;
 
@@ -69,6 +70,12 @@ export default function Explore() {
 
   return (
     <div>
+      <Seo
+        title="திருக்குறள் தேடல் | குறள், அதிகாரம், சொல்"
+        description="திருக்குறள் 1330 குறள்களையும் குறள் எண், அதிகாரம், தமிழ்ச் சொல் அல்லது ஆங்கிலச் சொல்லில் தேடலாம் — எளிய பொருள், விளக்கம் மற்றும் உரைகளுடன்."
+        canonical={`${BASE_URL}/explore`}
+        noIndex={!!q}
+      />
       <PageHead title="குறள்களைத் தேடு" note="குறள் எண், அதிகாரம், தமிழ்ச் சொல் அல்லது ஆங்கிலச் சொல்லில் தேடலாம்." />
 
       <section className="section section-tight">

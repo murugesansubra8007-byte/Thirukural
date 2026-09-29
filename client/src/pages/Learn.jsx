@@ -1,10 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PageHead } from '../components';
+import Seo, { BASE_URL } from '../seo';
 
 export default function Learn() {
   return (
     <div>
+      <Seo
+        title="திருக்குறள் கற்றல் | அறிமுகம், அமைப்பு, நிலைகள்"
+        description="திருக்குறள் கற்றல்: அறத்துப்பால், பொருட்பால், காமத்துப்பால் அமைப்பு, குறள் வெண்பாவின் இலக்கணம், இல்லறம், துறவறம் — தொடக்கநிலை முதல் மேம்பட்ட நிலை வரை."
+        canonical={`${BASE_URL}/learn`}
+      />
       <PageHead title="திருக்குறள் கற்றல்" note="தொடக்கநிலை → இடைநிலை → மேம்பட்ட நிலை" />
 
       <section className="section">

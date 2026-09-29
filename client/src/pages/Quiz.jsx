@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../api';
 import { Loading, PageHead } from '../components';
 import Icon from '../components/Icon';
+import Seo, { BASE_URL } from '../seo';
 
 export default function Quiz() {
   const [round, setRound] = useState(null);
@@ -89,6 +90,11 @@ export default function Quiz() {
 
   return (
     <div>
+      <Seo
+        title="திருக்குறள் வினாடி வினா | தினம்தோறும்"
+        description="உங்கள் திருக்குறள் அறிவை தினம்தோறும் சோதித்துக் கொள்ளுங்கள் — 5 கேள்விகள், உடனடி மதிப்பெண். ஒவ்வொரு கேள்விக்கும் விளக்க இணைப்பு."
+        canonical={`${BASE_URL}/quiz`}
+      />
       <PageHead
         title="தினம்தோறும் வினாடி வினா"
         note={`கேள்வி ${idx + 1} / ${round.questions.length} · ${round.date}`}

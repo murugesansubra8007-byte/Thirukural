@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../api';
 import { Loading, PageHead, PaalBadge } from '../components';
+import Seo, { BASE_URL } from '../seo';
 
 export default function Chapters() {
   const [params, setParams] = useSearchParams();
@@ -25,6 +26,11 @@ export default function Chapters() {
 
   return (
     <div>
+      <Seo
+        title="133 அதிகாரங்கள் | திருக்குறள்"
+        description="திருக்குறளின் 133 அதிகாரங்களின் முழு பட்டியல் — ஒவ்வொன்றிலும் 10 குறள்கள். அறத்துப்பால், பொருட்பால், காமத்துப்பால் என பால் வாரியாக தேர்ந்தெடுத்து படிக்கலாம்."
+        canonical={`${BASE_URL}/chapters`}
+      />
       <PageHead title="133 அதிகாரங்கள்" note="ஒவ்வொரு அதிகாரமும் 10 குறள்கள் — மொத்தம் 1330 குறள்கள்." />
 
       <section className="section">

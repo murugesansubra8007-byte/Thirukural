@@ -1341,6 +1341,16 @@ a.card:hover {
   letter-spacing: 0.3px;
 }
 
+@media (max-width: 620px) {
+  .kural-slab .leaf-verse {
+    font-size: 13.5px;
+  }
+
+  .today-kural .leaf-verse {
+    font-size: 15.5px;
+  }
+}
+
 .kural-slab .verse-large .l1,
 .kural-slab .verse-large .l2 {
   display: flex;

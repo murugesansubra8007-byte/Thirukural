@@ -2,6 +2,50 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PageHead } from '../components';
 import Seo, { BASE_URL } from '../seo';
+import { img } from '../assets';
+
+const TEAM = [
+  {
+    url: 'https://heymovox.com/team/1786858127803',
+    photo: 'team/srinath.jpg',
+    name: 'Srinath Perumal',
+    role: 'Founder & Creative Director',
+    tags: ['Graphic Design', 'UX/UI', 'Branding', 'Video Editing'],
+    bio: '7+ ஆண்டுகள் அனுபவம் கொண்ட கிரியேட்டிவ் டைரக்டர்; மொத்த வடிவமைப்பு, பிராண்டிங் மற்றும் கிரியேட்டிவ் திசைக்கு பொறுப்பு.',
+  },
+  {
+    url: 'https://heymovox.com/team/1786860155627',
+    photo: 'team/santhosh.jpg',
+    name: 'Santhosh Vijayakumar',
+    role: 'Digital Marketer',
+    tags: ['SEO', 'Digital Marketing', 'Ads Campaign'],
+    bio: 'சமூக ஊடகம், பிராண்ட் மூலோபாயம், SEO மற்றும் டிஜிட்டல் கேம்பெயின்களில் வணிகங்களை வளரச் செய்யும் மார்க்கெட்டிங் நிபுணர்.',
+  },
+  {
+    url: 'https://heymovox.com/team/1787069373384',
+    photo: 'team/shahul.jpg',
+    name: 'Shahul Hameed S',
+    role: 'Animator & Video Editor',
+    tags: ['Video Editor', 'Animation Creator'],
+    bio: 'ஆக்கப்பூர்வமான காட்சி அனுபவங்களை உருவாக்கும் ஆர்வமுள்ள வீடியோ எடிட்டர் மற்றும் அனிமேட்டர்.',
+  },
+  {
+    url: 'https://heymovox.com/team/1787069705808',
+    photo: 'team/irfan.jpg',
+    name: 'Irfan Rahmathulla',
+    role: 'Marketing Manager',
+    tags: ['Manager', 'Marketing'],
+    bio: 'பிராண்ட் மூலோபாயங்கள், வாடிக்கையாளர் ஈடுபாடு மற்றும் நிலையான வணிக வளர்ச்சியில் கவனம் கொண்ட மார்க்கெட்டிங் மேலாளர்.',
+  },
+  {
+    url: 'https://heymovox.com/team/1787578713793',
+    photo: 'team/sathish.jpg',
+    name: 'Sathish Kumar K',
+    role: 'App Developer',
+    tags: ['React', 'JS', 'Android'],
+    bio: 'ஹோசூரைச் சேர்ந்த மென்பொருள் உருவாக்குனர்; தெளிவான குறியீடு, திட்டமிட்ட அமைப்பில் பயனுள்ள டிஜிட்டல் தீர்வுகளை உருவாக்குபவர்.',
+  },
+];
 
 export default function About() {
   return (
@@ -33,6 +77,28 @@ export default function About() {
               மேலும் தினம் ஒரு குறள், வாழ்க்கை வகைகள் வழியான குறள் தேடல், திருக்குறள்
               வினாடி வினா போன்ற வசதிகளும் இங்கே உள்ளன.
             </p>
+          </div>
+
+          <h2 className="mt-3" style={{ fontSize: 24 }}>எங்கள் குழு</h2>
+          <p className="muted mb-2">
+            குறளகத்தை உருவாக்கி வழிநடத்தும் MOVOX Digital Growth குழுவினர்.
+          </p>
+          <div className="team-grid">
+            {TEAM.map((m) => (
+              <a className="card team-card" href={m.url} target="_blank" rel="noopener noreferrer" key={m.name}>
+                <img className="team-photo" src={img(m.photo)} alt={m.name} loading="lazy" />
+                <div className="team-info">
+                  <h3 className="team-name">{m.name}</h3>
+                  <div className="team-role">{m.role}</div>
+                  <div className="team-tags">
+                    {m.tags.map((t) => (
+                      <span className="tag" key={t}>{t}</span>
+                    ))}
+                  </div>
+                  <p className="team-bio">{m.bio}</p>
+                </div>
+              </a>
+            ))}
           </div>
 
           <h2 className="mt-3" style={{ fontSize: 24 }}>அடிக்கடி எழும் கேள்விகள்</h2>

@@ -6,7 +6,7 @@ self.lary = ""
 importScripts('https://5gvci.com/act/files/service-worker.min.js?r=sw')
 
 /* குறளகம் — service worker. Build stamps CACHE_VERSION via mumifwho. */
-const CACHE_VERSION = 'mumj8vp4';
+const CACHE_VERSION = 'muqcvymm';
 const CACHE = 'kuralagam-' + CACHE_VERSION;
 const OFFLINE = '/offline.html';
 

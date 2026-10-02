@@ -34,7 +34,7 @@ const esbuildBin =
     join(root, 'client', 'node_modules', '.bin', process.platform === 'win32' ? 'esbuild.cmd' : 'esbuild')) ||
   join(root, 'node_modules', '.bin', process.platform === 'win32' ? 'esbuild.cmd' : 'esbuild');
 const bundlePath = join(funcDir, 'index.js');
-const esbuildCmd = `"${esbuildBin}" api/index.js --bundle --platform=node --format=cjs --target=node20 --outfile="${bundlePath}"`;
+const esbuildCmd = `"${esbuildBin}" api/index.js --bundle --platform=node --format=cjs --target=node24 --outfile="${bundlePath}"`;
 try {
   execSync(esbuildCmd, { cwd: root, stdio: 'inherit' });
 } catch (e) {
@@ -54,7 +54,7 @@ if (existsSync(join(root, 'server', 'data', 'db.json'))) {
 writeFileSync(
   join(funcDir, '.vc-config.json'),
   JSON.stringify(
-    { runtime: 'nodejs20.x', handler: 'index.js', launcherType: 'Nodejs', maxDuration: 30, shouldAddHelpers: false },
+    { runtime: 'nodejs24.x', handler: 'index.js', launcherType: 'Nodejs', maxDuration: 30, shouldAddHelpers: false },
     null,
     2
   )
